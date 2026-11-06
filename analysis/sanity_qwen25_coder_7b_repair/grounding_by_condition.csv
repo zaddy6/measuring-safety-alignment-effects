@@ -1,0 +1,3 @@
+condition,runs,read_expected_file,named_expected_file,named_expected_symbol,named_issue,provided_evidence,mean_grounding_score,success_rate
+aligned,60,1.0,0.18333333333333332,0.75,0.26666666666666666,0.35,2.55,0.0
+uncensored,60,1.0,0.3,0.8333333333333334,0.26666666666666666,0.36666666666666664,2.7666666666666666,0.0

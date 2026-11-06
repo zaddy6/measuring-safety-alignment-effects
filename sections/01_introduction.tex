@@ -1,0 +1,103 @@
+\section{Introduction}
+\label{sec:intro}
+
+Language models are starting to operate as security agents rather than only as
+advisers. They inspect repositories, run tests, call command-line tools, check
+whether a bug is reachable, and write remediation evidence. That shift makes
+safety alignment harder to reason about. In ordinary chat, refusing
+exploit-adjacent detail is often the desired behavior. In an authorized agent
+workflow, the same kind of detail can be part of the job: the agent may need to
+localize a vulnerable function, demonstrate reachability inside a disposable
+sandbox, or verify that a patch blocks the failing path. A refusal there can
+break a defensive workflow that the surrounding system has already constrained
+and authorized as legitimate.
+
+\looseness=-1
+This paper evaluates that tension empirically. We ask how model-level safety
+alignment changes autonomous performance and evidence quality on local,
+authorized, sandboxed information-security tasks. The question is not whether
+safety controls are necessary; they are. The question is where the control
+should sit and how it should be measured. Model-level refusal can reduce
+open-ended misuse, but be too coarse for contained workflows requiring local
+construction and validation. Reducing
+refusals is not automatically desirable either: it may recover useful behavior,
+expose general capability differences, or produce invalid actions that still
+need system-level checks.
+
+\looseness=-1
+We build one paired local evaluation around four aligned versus
+less-restricted model pairs. Two pairs are Gemma 4 models: the official 31B
+instruction-tuned model and a third-party 31B uncensored derivative, plus an
+official 26B A4B model and a matched third-party 26B A4B uncensored derivative.
+The same evaluation includes Qwen2.5-Coder 7B and Llama 3.1 8B pairs using
+aligned instruction models and abliterated derivatives. In the 31B Gemma
+condition set, the official model is also tested with its standard prompt, with
+an explicit defensive authorization prompt, and with a fixed placeholder prefix
+that serves only as an additional prompt-variant control. All comparable conditions
+share the same agent harness, tasks, tools, budgets, seeds, inference backend,
+and, where possible, quantization level.
+
+\looseness=-1
+The security evaluation contains 1,500 saved runs across the four model pairs.
+The 31B Gemma model is evaluated under four prompt/model conditions; the 26B
+Gemma, Qwen, and Llama pairs are evaluated under aligned and
+less-restricted conditions. The security tasks cover vulnerability
+localization, reachability validation, proof of trigger, patch verification,
+and remediation reporting. Each task has a deterministic success predicate, a
+redaction rule, and a machine-readable trace recording model messages, tool
+calls, phase events, refusals, suppressed actions, unsafe actions, and final
+outcomes. This lets the analysis separate visible refusals from ordinary agent
+failures in the same trace.
+
+\looseness=-1
+Raw success rates are not enough. A report can sound plausible while failing to
+read or cite the local evidence that supports its claim. We therefore add
+evidence-grounding targets to every task manifest: expected files, symbols,
+issue terms, and local evidence terms. These produce auditable per-run
+grounding metrics from tool calls and final artifacts. We also run non-security
+sanity and standard coding controls for every model pair, so that any
+aligned--less-restricted gap can be compared against ordinary coding work
+rather than interpreted too quickly as a security-specific effect.
+
+\looseness=-1
+The cross-family result is deliberately less tidy than a single-family account.
+Both Gemma pairs show a less-restricted advantage in success and grounding, but
+Qwen2.5-Coder does not reproduce the success advantage and the abliterated
+Llama 3.1 derivative performs much worse under the tool protocol. The strongest
+conclusion is therefore not that safety alignment uniquely suppresses security
+work, or that less-restricted derivatives are generally better security agents.
+It is that visible refusal rates alone do not explain agent behavior: evidence
+grounding, model capability, derivative provenance, and tool-interface
+reliability all matter. All families also remain weak on hard proof and
+patch-verification tasks, where autonomous agents need reliable validation
+rather than fluent reporting.
+
+The paper makes three contributions.
+\begin{enumerate}[leftmargin=*]
+  \item \looseness=-1
+  We introduce a system-level benchmark for authorized security agents:
+  30 local sandboxed tasks with fixed tools, deterministic success checks,
+  redaction rules, and trace labels that distinguish refusal from tool,
+  localization, validation, and reporting failures.\footnote{Code and data:
+  \codeurl.}
+  \item \looseness=-1
+  We run a single cross-family evaluation across Gemma 4 31B, Gemma 4
+  26B A4B, Qwen2.5-Coder 7B, and Llama 3.1 8B, comparing aligned models with
+  less-restricted derivatives under shared tasks, seeds, budgets, backend, and
+  success predicates, plus non-security sanity and standard coding controls.
+  \item \looseness=-1
+  We show that the observed behavior is not explained by visible refusal
+  alone. The Gemma pairs show weaker grounded artifact production in aligned
+  conditions, while Qwen and Llama show that derivative provenance and
+  tool-interface reliability can dominate the comparison. Deterministic
+  grounding metrics, task-blocked tests, and a blind LLM-reviewer audit support
+  this cautious cross-family interpretation.
+\end{enumerate}
+
+\looseness=-1
+The scope is intentionally limited. We do not evaluate third-party targets, do
+not publish reusable exploit payloads, and do not argue that less-restricted
+models are safe to deploy. The paper examines how refusal behavior, model
+capability, and evidence grounding interact inside a contained agent system,
+and why security-agent safety should be evaluated at the system level rather
+than only through single-turn refusal behavior.

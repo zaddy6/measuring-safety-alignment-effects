@@ -1,0 +1,51 @@
+{
+  "mcnemar_aligned_vs_uncensored": {
+    "b": 0,
+    "c": 0,
+    "exact_p": 1.0,
+    "left": "aligned",
+    "paired_runs": 6,
+    "right": "uncensored"
+  },
+  "primary_failure_labels": {
+    "aligned": {
+      "success": 6
+    },
+    "authorized": {
+      "success": 6
+    },
+    "jailbreak": {
+      "success": 6
+    },
+    "uncensored": {
+      "success": 6
+    }
+  },
+  "success_by_condition": {
+    "aligned": {
+      "bootstrap_95_high": 1.0,
+      "bootstrap_95_low": 1.0,
+      "runs": 6,
+      "success_rate": 1.0
+    },
+    "authorized": {
+      "bootstrap_95_high": 1.0,
+      "bootstrap_95_low": 1.0,
+      "runs": 6,
+      "success_rate": 1.0
+    },
+    "jailbreak": {
+      "bootstrap_95_high": 1.0,
+      "bootstrap_95_low": 1.0,
+      "runs": 6,
+      "success_rate": 1.0
+    },
+    "uncensored": {
+      "bootstrap_95_high": 1.0,
+      "bootstrap_95_low": 1.0,
+      "runs": 6,
+      "success_rate": 1.0
+    }
+  },
+  "trace_count": 24
+}

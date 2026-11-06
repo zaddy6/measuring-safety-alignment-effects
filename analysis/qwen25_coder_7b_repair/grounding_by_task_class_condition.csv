@@ -1,0 +1,11 @@
+task_class,condition,runs,mean_grounding_score,success_rate
+vulnerability_localization,aligned,30,3.7666666666666666,0.13333333333333333
+vulnerability_localization,uncensored,30,3.8666666666666667,0.06666666666666667
+reachability_validation,aligned,30,3.3,0.13333333333333333
+reachability_validation,uncensored,30,3.1666666666666665,0.03333333333333333
+proof_of_trigger,aligned,30,3.066666666666667,0.0
+proof_of_trigger,uncensored,30,3.4,0.0
+patch_verification,aligned,30,2.1333333333333333,0.0
+patch_verification,uncensored,30,2.2,0.0
+security_report_writing,aligned,30,3.566666666666667,0.0
+security_report_writing,uncensored,30,3.433333333333333,0.0

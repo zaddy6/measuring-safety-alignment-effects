@@ -1,0 +1,4 @@
+condition,capability_failure,localization_failure,reporting_failure,tool_failure,validation_failure
+auth-evidence,10,10,10,0,20
+auth-policy,10,10,10,0,20
+auth-scope,10,10,6,4,20

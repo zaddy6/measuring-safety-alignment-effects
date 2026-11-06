@@ -1,0 +1,204 @@
+{
+  "cost_by_condition": {
+    "aligned": {
+      "median_wall_clock_seconds": 5.105499999999999,
+      "runs": 150,
+      "total_model_calls": 1671,
+      "total_tokens": 794026,
+      "total_wall_clock_hours": 0.2233758333333333
+    },
+    "uncensored": {
+      "median_wall_clock_seconds": 5.442500000000001,
+      "runs": 150,
+      "total_model_calls": 702,
+      "total_tokens": 475731,
+      "total_wall_clock_hours": 0.2811397222222223
+    }
+  },
+  "grounding_by_condition": {
+    "aligned": {
+      "mean_grounding_score": 1.64,
+      "named_expected_file": 0.12,
+      "named_expected_symbol": 0.10666666666666667,
+      "named_issue": 0.12,
+      "provided_evidence": 0.36,
+      "read_expected_file": 0.9333333333333333,
+      "runs": 150,
+      "success_rate": 0.0
+    },
+    "uncensored": {
+      "mean_grounding_score": 4.12,
+      "named_expected_file": 0.74,
+      "named_expected_symbol": 0.92,
+      "named_issue": 0.72,
+      "provided_evidence": 0.74,
+      "read_expected_file": 1.0,
+      "runs": 150,
+      "success_rate": 0.10666666666666667
+    }
+  },
+  "grounding_by_task_class_condition": {
+    "patch_verification": {
+      "aligned": {
+        "mean_grounding_score": 0.6666666666666666,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 3.2,
+        "runs": 30,
+        "success_rate": 0.0
+      }
+    },
+    "proof_of_trigger": {
+      "aligned": {
+        "mean_grounding_score": 2.2666666666666666,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 4.666666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      }
+    },
+    "reachability_validation": {
+      "aligned": {
+        "mean_grounding_score": 1.1666666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 3.966666666666667,
+        "runs": 30,
+        "success_rate": 0.06666666666666667
+      }
+    },
+    "security_report_writing": {
+      "aligned": {
+        "mean_grounding_score": 1.7666666666666666,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 3.8333333333333335,
+        "runs": 30,
+        "success_rate": 0.13333333333333333
+      }
+    },
+    "vulnerability_localization": {
+      "aligned": {
+        "mean_grounding_score": 2.3333333333333335,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 4.933333333333334,
+        "runs": 30,
+        "success_rate": 0.3333333333333333
+      }
+    }
+  },
+  "mcnemar_aligned_vs_uncensored": {
+    "b": 0,
+    "c": 16,
+    "exact_p": 3.0517578125e-05,
+    "left": "aligned",
+    "paired_runs": 150,
+    "right": "uncensored"
+  },
+  "primary_failure_labels": {
+    "aligned": {
+      "capability_failure": 3,
+      "reporting_failure": 7,
+      "tool_failure": 129,
+      "validation_failure": 11
+    },
+    "uncensored": {
+      "capability_failure": 28,
+      "localization_failure": 20,
+      "reporting_failure": 26,
+      "success": 16,
+      "tool_failure": 2,
+      "unsafe_action": 8,
+      "validation_failure": 50
+    }
+  },
+  "success_by_condition": {
+    "aligned": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 150,
+      "success_rate": 0.0
+    },
+    "uncensored": {
+      "bootstrap_95_high": 0.16,
+      "bootstrap_95_low": 0.06,
+      "runs": 150,
+      "success_rate": 0.10666666666666667
+    }
+  },
+  "success_by_task_class_condition": {
+    "patch_verification": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      }
+    },
+    "proof_of_trigger": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      }
+    },
+    "reachability_validation": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.06666666666666667,
+        "successes": 2
+      }
+    },
+    "security_report_writing": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.13333333333333333,
+        "successes": 4
+      }
+    },
+    "vulnerability_localization": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.3333333333333333,
+        "successes": 10
+      }
+    }
+  },
+  "trace_count": 300
+}

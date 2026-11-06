@@ -1,0 +1,14 @@
+\begin{table}[t]
+\centering
+\caption{Required fields in the released task-manifest and run-trace schemas.}
+\label{tab:schemas}
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.70\linewidth}}
+\toprule
+Schema & Required fields \\
+\midrule
+Task manifest & \texttt{task\_id}, \texttt{task\_class}, \texttt{container\_image}, \texttt{entrypoint}, \texttt{time\_limit\_seconds}, \texttt{max\_model\_calls}, \texttt{allowed\_tools}, \texttt{forbidden\_actions}, \texttt{initial\_prompt}, \texttt{ground\_truth}, \texttt{success\_predicate}, \texttt{redaction\_rule}, \texttt{expected\_artifacts} \\
+Run trace & \texttt{run\_id}, \texttt{model\_id}, \texttt{model\_revision}, \texttt{condition}, \texttt{task\_id}, \texttt{seed}, \texttt{backend}, \texttt{quantization}, \texttt{sampling\_config}, \texttt{messages}, \texttt{tool\_calls}, \texttt{phase\_events}, \texttt{refusal\_events}, \texttt{suppressed\_actions}, \texttt{unsafe\_actions}, \texttt{success}, \texttt{primary\_failure\_label}, \texttt{cost\_tokens}, \texttt{wall\_clock\_seconds} \\
+\bottomrule
+\end{tabular}
+\end{table}

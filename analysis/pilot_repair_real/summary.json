@@ -1,0 +1,52 @@
+{
+  "mcnemar_aligned_vs_uncensored": {
+    "b": 0,
+    "c": 4,
+    "exact_p": 0.125,
+    "left": "aligned",
+    "paired_runs": 6,
+    "right": "uncensored"
+  },
+  "primary_failure_labels": {
+    "aligned": {
+      "localization_failure": 6
+    },
+    "authorized": {
+      "localization_failure": 6
+    },
+    "jailbreak": {
+      "localization_failure": 6
+    },
+    "uncensored": {
+      "localization_failure": 2,
+      "success": 4
+    }
+  },
+  "success_by_condition": {
+    "aligned": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 6,
+      "success_rate": 0.0
+    },
+    "authorized": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 6,
+      "success_rate": 0.0
+    },
+    "jailbreak": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 6,
+      "success_rate": 0.0
+    },
+    "uncensored": {
+      "bootstrap_95_high": 1.0,
+      "bootstrap_95_low": 0.3333333333333333,
+      "runs": 6,
+      "success_rate": 0.6666666666666666
+    }
+  },
+  "trace_count": 24
+}

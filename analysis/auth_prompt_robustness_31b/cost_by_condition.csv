@@ -1,0 +1,4 @@
+condition,runs,total_model_calls,total_tokens,median_wall_clock_seconds,total_wall_clock_hours
+auth-scope,50,201,105166,11.756499999999999,0.17853222222222223
+auth-evidence,50,157,90473,13.8575,0.19769611111111104
+auth-policy,50,155,84421,11.515,0.1690380555555556

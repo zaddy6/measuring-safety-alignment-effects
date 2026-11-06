@@ -1,0 +1,12 @@
+{
+  "Reviewer A": {
+    "exact_bin_agreement": 0.7666666666666667,
+    "spearman": 0.9055414219900986,
+    "within_one_bin_agreement": 1.0
+  },
+  "Reviewer B": {
+    "exact_bin_agreement": 0.6833333333333333,
+    "spearman": 0.792868894643504,
+    "within_one_bin_agreement": 1.0
+  }
+}

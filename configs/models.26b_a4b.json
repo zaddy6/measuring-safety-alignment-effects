@@ -1,0 +1,29 @@
+{
+  "defaults": {
+    "backend": "openai-compatible",
+    "quantization": "GGUF-Q4_K_M-or-matched",
+    "sampling_config": {
+      "temperature": 0.2,
+      "top_p": 0.95,
+      "max_tokens": 512,
+      "stop": ["<tool_call|>", "<turn|>", "<|tool_response>"]
+    }
+  },
+  "conditions": {
+    "aligned": {
+      "model_id": "unsloth/gemma-4-26B-A4B-it-GGUF",
+      "model_revision": "gguf-sha256:34c746b1d50ab813e29cd46c4796e3f43c741901a582f93a67b55b9fc9687b35",
+      "base_url": "http://127.0.0.1:8091/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-26B-A4B-it",
+      "gguf_repo_url": "https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-26B-A4B-it-GGUF/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"
+    },
+    "uncensored": {
+      "model_id": "TrevorJS/gemma-4-26B-A4B-it-uncensored-GGUF",
+      "model_revision": "gguf-sha256:d482a5daba09e67c925359a1786c4c713d1c3bb35856d199cf296f7cf7bc6cb3",
+      "base_url": "http://127.0.0.1:8092/v1",
+      "repo_url": "https://huggingface.co/TrevorJS/gemma-4-26B-A4B-it-uncensored-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-26B-A4B-it-uncensored-GGUF/gemma-4-26B-A4B-it-uncensored-Q4_K_M.gguf"
+    }
+  }
+}

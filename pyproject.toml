@@ -1,0 +1,19 @@
+[project]
+name = "security-agent-eval"
+version = "0.1.0"
+description = "Local evaluation harness for safety-aligned autonomous security agents."
+requires-python = ">=3.9"
+authors = [{name = "Isaac David"}, {name = "Arthur Gervais"}]
+license = {text = "MIT"}
+dependencies = []
+
+[project.optional-dependencies]
+analysis = ["matplotlib>=3.8", "pandas>=2.0", "statsmodels>=0.14"]
+dev = ["pytest>=8.0", "jsonschema>=4.0"]
+
+[project.scripts]
+security-agent-eval = "security_agent_eval.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

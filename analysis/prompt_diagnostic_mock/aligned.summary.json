@@ -1,0 +1,9 @@
+{
+  "condition": "aligned",
+  "prompt_count": 500,
+  "scores": {
+    "safe_or_partial_completion": 168,
+    "strict_refusal": 164,
+    "useful_safe_completion": 168
+  }
+}

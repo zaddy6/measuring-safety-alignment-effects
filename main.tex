@@ -1,0 +1,73 @@
+\documentclass{article}
+
+% NeurIPS 2026 main-track camera-ready version. The style file defines the
+% camera-ready footer only when the track option (main) is passed with final.
+\PassOptionsToPackage{numbers,sort&compress}{natbib}
+\usepackage[main,final]{neurips_2026}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning,shadows}
+
+\hypersetup{
+  pdftitle={Measuring Safety Alignment Effects in Autonomous Security Agents},
+  pdfauthor={Isaac David, Arthur Gervais}
+}
+\newcommand{\codeurl}{\url{https://github.com/zaddy6/measuring-safety-alignment-effects}}
+
+\title{Measuring Safety Alignment Effects in Autonomous Security Agents}
+\author{%
+  Isaac David \\
+  University College London \\
+  \texttt{isaac.david.22@ucl.ac.uk} \\
+  \And
+  Arthur Gervais \\
+  University College London \\
+  \texttt{a.gervais@ucl.ac.uk} \\
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Autonomous security agents use language models to inspect code, call tools, and test vulnerabilities inside authorized environments. Most safety evaluations ask whether a model refuses harmful single-turn requests. We study a different failure mode: whether safety alignment changes the evidence-grounded behavior of an agent that is already operating in a local sandbox with fixed tools and success checks. We evaluate four pairs of safety-aligned models and less-restricted (uncensored or abliterated) derivatives in the same security-agent harness: Gemma 4 31B, Gemma 4 26B A4B, Qwen2.5-Coder 7B, and Llama 3.1 8B. Each model receives authorized vulnerability-analysis tasks, and each run is scored from saved traces rather than self-reported success. We measure task completion, refusals, unsafe actions, and whether the final artifact is grounded in the relevant files, symbols, and vulnerability evidence. The key finding is that the gap is not mainly visible refusal. The aligned Gemma 4 models usually continue working, but their artifacts are less likely to satisfy security-specific evidence checks. The uncensored Gemma 4 derivatives more often find the relevant code, identify reachability, and write usable security reports. Clear authorization in the prompt does not recover this behavior for Gemma 4 31B. The pattern is not general: the Gemma derivatives also do better on non-security coding controls, and the abliterated Qwen2.5-Coder and Llama 3.1 derivatives do not outperform their aligned counterparts. At the same time, all conditions fail the hardest proof-of-trigger and patch-verification tasks. These results suggest that safety alignment effects in autonomous security agents cannot be understood only as refusals: they also appear as weaker grounding and less specific defensive evidence, and they depend on model family, derivative, and tool interface. Less-restricted derivatives recover some behavior for Gemma, but do not make the agent reliable or safe.
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_methodology}
+\input{sections/04_evaluation}
+\input{sections/04_results}
+\input{sections/05_discussion}
+\input{sections/06_ethics_limitations}
+
+\begin{ack}
+This work was self-funded by the authors. The authors declare no competing
+interests.
+\end{ack}
+
+\clearpage
+\bibliographystyle{unsrtnat}
+\nocite{*}
+\bibliography{refs}
+
+\clearpage
+\input{appendix}
+
+\clearpage
+\input{checklist}
+
+\end{document}

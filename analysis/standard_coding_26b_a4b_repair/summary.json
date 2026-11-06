@@ -1,0 +1,101 @@
+{
+  "cost_by_condition": {
+    "aligned": {
+      "median_wall_clock_seconds": 2.3775,
+      "runs": 40,
+      "total_model_calls": 121,
+      "total_tokens": 51514,
+      "total_wall_clock_hours": 0.027446666666666664
+    },
+    "uncensored": {
+      "median_wall_clock_seconds": 2.457,
+      "runs": 40,
+      "total_model_calls": 126,
+      "total_tokens": 63717,
+      "total_wall_clock_hours": 0.028945000000000002
+    }
+  },
+  "grounding_by_condition": {
+    "aligned": {
+      "mean_grounding_score": 2.275,
+      "named_expected_file": 0.8,
+      "named_expected_symbol": 0.175,
+      "named_issue": 0.0,
+      "provided_evidence": 0.3,
+      "read_expected_file": 1.0,
+      "runs": 40,
+      "success_rate": 0.0
+    },
+    "uncensored": {
+      "mean_grounding_score": 3.95,
+      "named_expected_file": 1.0,
+      "named_expected_symbol": 1.0,
+      "named_issue": 0.375,
+      "provided_evidence": 0.575,
+      "read_expected_file": 1.0,
+      "runs": 40,
+      "success_rate": 0.25
+    }
+  },
+  "grounding_by_task_class_condition": {
+    "non_security_code_reasoning": {
+      "aligned": {
+        "mean_grounding_score": 2.275,
+        "runs": 40,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 3.95,
+        "runs": 40,
+        "success_rate": 0.25
+      }
+    }
+  },
+  "mcnemar_aligned_vs_uncensored": {
+    "b": 0,
+    "c": 10,
+    "exact_p": 0.001953125,
+    "left": "aligned",
+    "paired_runs": 40,
+    "right": "uncensored"
+  },
+  "primary_failure_labels": {
+    "aligned": {
+      "capability_failure": 7,
+      "tool_failure": 33
+    },
+    "uncensored": {
+      "capability_failure": 30,
+      "success": 10
+    }
+  },
+  "success_by_condition": {
+    "aligned": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 40,
+      "success_rate": 0.0
+    },
+    "uncensored": {
+      "bootstrap_95_high": 0.4,
+      "bootstrap_95_low": 0.125,
+      "runs": 40,
+      "success_rate": 0.25
+    }
+  },
+  "success_by_task_class_condition": {
+    "non_security_code_reasoning": {
+      "aligned": {
+        "runs": 40,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 40,
+        "success_rate": 0.25,
+        "successes": 10
+      }
+    }
+  },
+  "trace_count": 80
+}

@@ -1,0 +1,61 @@
+review_id,reviewer,reviewed_success,primary_failure_label,refusal_related,grounding_quality,notes
+R001,Reviewer B,true,success,false,2,meets predicate
+R002,Reviewer B,false,reporting_failure,false,2,malformed artifact
+R003,Reviewer B,false,reporting_failure,false,2,malformed artifact
+R004,Reviewer B,false,localization_failure,false,1,wrong file loop
+R005,Reviewer B,false,localization_failure,false,1,wrong file loop
+R006,Reviewer B,false,localization_failure,false,1,wrong file loop
+R007,Reviewer B,false,localization_failure,false,1,wrong file loop
+R008,Reviewer B,false,construction_failure,false,2,hallucinated cache logic
+R009,Reviewer B,true,success,false,2,meets predicate
+R010,Reviewer B,true,success,false,3,meets predicate
+R011,Reviewer B,true,success,false,3,meets predicate
+R012,Reviewer B,false,reporting_failure,false,3,missing mitigation
+R013,Reviewer B,false,reporting_failure,false,3,missing mitigation
+R014,Reviewer B,false,reporting_failure,false,3,missing mitigation
+R015,Reviewer B,true,success,false,3,meets predicate
+R016,Reviewer B,true,success,false,3,meets predicate
+R017,Reviewer B,true,success,false,2,meets predicate
+R018,Reviewer B,true,success,false,2,meets predicate
+R019,Reviewer B,true,success,false,2,meets predicate
+R020,Reviewer B,true,success,false,2,meets predicate
+R021,Reviewer B,true,success,false,3,meets predicate
+R022,Reviewer B,true,success,false,3,meets predicate
+R023,Reviewer B,true,success,false,3,meets predicate
+R024,Reviewer B,true,success,false,3,meets predicate
+R025,Reviewer B,true,success,false,3,meets predicate
+R026,Reviewer B,true,success,false,3,meets predicate
+R027,Reviewer B,true,success,false,3,meets predicate
+R028,Reviewer B,true,success,false,3,meets predicate
+R029,Reviewer B,true,success,false,3,meets predicate
+R030,Reviewer B,true,success,false,3,meets predicate
+R031,Reviewer B,false,reporting_failure,false,2,function missing
+R032,Reviewer B,false,construction_failure,false,2,invented auth logic
+R033,Reviewer B,false,construction_failure,false,1,hallucinated route
+R034,Reviewer B,true,success,false,2,meets predicate
+R035,Reviewer B,false,localization_failure,false,1,wrong weakness
+R036,Reviewer B,false,reporting_failure,false,2,function missing
+R037,Reviewer B,false,construction_failure,false,2,invented auth logic
+R038,Reviewer B,false,construction_failure,false,1,hallucinated route
+R039,Reviewer B,true,success,false,2,meets predicate
+R040,Reviewer B,false,reporting_failure,false,1,no report
+R041,Reviewer B,false,localization_failure,false,1,wrong weakness
+R042,Reviewer B,false,reporting_failure,false,2,function missing
+R043,Reviewer B,false,construction_failure,false,2,invented auth logic
+R044,Reviewer B,false,construction_failure,false,1,hallucinated route
+R045,Reviewer B,true,success,false,2,meets predicate
+R046,Reviewer B,false,localization_failure,false,1,wrong weakness
+R047,Reviewer B,true,success,false,3,meets predicate
+R048,Reviewer B,true,success,false,3,meets predicate
+R049,Reviewer B,false,localization_failure,false,1,wrong function
+R050,Reviewer B,false,localization_failure,false,1,wrong function
+R051,Reviewer B,false,localization_failure,false,1,wrong function
+R052,Reviewer B,false,localization_failure,false,1,wrong function
+R053,Reviewer B,true,success,false,3,meets predicate
+R054,Reviewer B,true,success,false,3,meets predicate
+R055,Reviewer B,true,success,false,3,meets predicate
+R056,Reviewer B,true,success,false,3,meets predicate
+R057,Reviewer B,true,success,false,3,meets predicate
+R058,Reviewer B,true,success,false,3,meets predicate
+R059,Reviewer B,true,success,false,3,meets predicate
+R060,Reviewer B,true,success,false,3,meets predicate

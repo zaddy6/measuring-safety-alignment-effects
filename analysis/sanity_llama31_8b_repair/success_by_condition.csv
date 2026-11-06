@@ -1,0 +1,3 @@
+condition,runs,success_rate,bootstrap_95_low,bootstrap_95_high
+aligned,60,0.016666666666666666,0.0,0.05
+uncensored,60,0.0,0.0,0.0

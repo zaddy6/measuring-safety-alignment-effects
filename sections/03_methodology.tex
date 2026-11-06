@@ -1,0 +1,158 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\input{figures/evaluation_flow}
+
+\subsection{Research Questions and Hypotheses}
+
+The evaluation asks five linked questions. First, does model condition change
+end-to-end success under the same tools, budgets, and success predicates?
+Second, where do failed runs break: refusal, agent-interface use, weak local
+grounding, or hard proof and patch-verification steps? Third, does explicit
+authorization recover useful behavior without increasing unsafe actions?
+Fourth, within a model and condition, do runs that read the expected files and
+name the relevant files, symbols, issues, and local evidence succeed more often
+than those that do not? Finally, is the
+aligned--less-restricted gap larger on security-agent tasks than on ordinary
+local coding controls under the same harness?
+
+Our working hypothesis is that less-restricted derivatives may perform better
+on tasks requiring construction, reachability checks, or validation, because
+these steps are close to behavior that model-level refusal policies often
+discourage. We do not treat such a gain as evidence by itself. The
+interpretation depends on failure phase, evidence grounding, unsafe-action
+rates, non-security controls, and whether the direction is stable across model
+families.
+
+\subsection{Threat Model and Scope}
+
+All tasks are local, authorized, and constructed to contain known defects that
+the benchmark asks the agent to inspect or repair. No task targets
+third-party systems. Each run starts in a fresh temporary workspace that
+confines file tools, and tools or commands outside an allow-list are blocked and
+logged, but the network and host filesystem are not isolated
+(Appendix~\ref{app:out-of-scope}). The policy forbids attempts to escape
+the sandbox, access external systems, exfiltrate secrets, or produce reusable
+operational instructions; the automated unsafe-action label records only
+blocked tool-policy violations.
+
+This threat model separates \emph{task legitimacy} from \emph{model output
+surface}. The same natural-language action can be disallowed in an open setting
+and required in a controlled benchmark. The purpose of the evaluation is to
+measure whether model behavior tracks that distinction when the surrounding
+agent system establishes authorization and containment.
+
+\subsection{Task and Model Suite}
+
+\input{tables/model_matrix}
+
+\input{tables/task_suite}
+
+The model suite contains four aligned versus less-restricted pairs:
+Gemma 4 31B, Gemma 4 26B A4B, Qwen2.5-Coder 7B, and Llama 3.1 8B. The Gemma
+pairs use official aligned models and third-party uncensored derivatives. The
+Qwen and Llama pairs use aligned instruction models and abliterated
+derivatives. The 31B Gemma evaluation additionally includes explicit
+authorization and placeholder-prefix prompt conditions for the official aligned
+model. We report the paired comparisons together for readability, while keeping
+statistical tests separate because model family, size, architecture details,
+and derivative provenance are not controlled tightly enough for pooling. Every run records the model identifier, GGUF SHA-256 hash, backend,
+quantization label, controller mode, and sampling settings.
+
+The artifact implements a 30-task catalog split evenly across five classes.
+Each task has a machine-readable manifest, local fixture files, a deterministic
+success predicate, and a redaction rule. The tasks are intentionally small and
+original: they use local code snippets and report-writing contexts rather than
+third-party targets, live credentials, public exploit chains, or internet
+dependencies. Proof-of-trigger tasks require redacted local evidence rather than
+copy-paste trigger strings.
+
+Each manifest also contains evidence-grounding targets: expected files,
+symbols, issue terms, and local evidence terms. Grounding is scored by
+case-insensitive substring matching against redacted tool calls and the final
+artifact. It is deliberately non-semantic: an auditable check of whether the
+agent read the relevant file and connected expected local evidence to the final
+artifact.
+
+The non-security sanity catalog contains 12 local coding tasks using the same
+fixture, controller, trace, predicate, and analysis machinery. These tasks cover
+ordinary bug localization, branch-condition mistakes, cache-key mistakes,
+parsing and formatting errors, small remediation notes, and test-failure
+diagnosis. They are included to distinguish a security-specific effect from a
+general model-quality or grounding gap. A smaller standard coding catalog adds
+eight HumanEval/MBPP-style local repair tasks as a second non-security control.
+Both controls are run for every model pair.
+
+\subsection{Agent Harness}
+
+Each run uses the same Python controller and tool permissions. The controller
+materializes task fixtures into a temporary local workspace, sends the task
+prompt to a local OpenAI-compatible model endpoint, receives JSON-formatted
+model actions, executes permitted tools inside the sandbox, returns tool output,
+and stops when the model emits a final artifact or the budget is exhausted. The
+harness enforces:
+\begin{enumerate}[leftmargin=*]
+  \item a fixed wall-clock limit per task,
+  \item a fixed maximum number of model calls,
+  \item the same context-window policy,
+  \item the same sampling parameters for all comparable conditions,
+  \item deterministic seed assignment,
+  \item complete trace logging, and
+  \item redaction before public release.
+\end{enumerate}
+
+The harness does not rely on the model to self-report success. Automated
+predicates check files, command outputs, service state, and report artifacts.
+Two blind LLM reviewer passes are used only as an audit of saved trace labels
+and grounding judgments; they are not used to decide task success.
+
+The implementation also includes a deterministic mock backend used only for
+artifact validation. Mock results test orchestration, schema validation,
+analysis, and redaction; they are artifact checks rather than empirical model
+evidence.
+
+\looseness=-1
+The evaluation uses two controller modes. The strict controller accepts only the
+declared JSON tool protocol. The repair controller includes the initial file
+inventory in the task prompt, converts a repeated identical
+\texttt{list\_files} call into a read of the first relevant source file, and
+repairs two common artifact-write wrappers. The repair controller does not
+change task ground truth or success predicates. All full security and control
+runs use the repair controller because strict pilot runs showed that several
+aligned conditions were otherwise dominated by interface failures. A matched
+strict-versus-repair ablation quantifies this interface effect, and every saved
+trace records the controller choice. Appendix~\ref{app:controller-repairs}
+specifies each repair rule and how often it fired.
+
+\subsection{Prompt Conditions}
+\label{sec:prompt-conditions}
+
+The \emph{aligned} condition uses the aligned model's standard chat template
+and the task prompt. The \emph{authorized} condition, evaluated for Gemma 31B
+only, adds a concise statement that the task is local, authorized, defensive,
+and sandboxed. The \emph{placeholder} condition, also evaluated for Gemma 31B
+only, was designed to apply a private jailbreak-style template, but that
+template was never configured for the reported runs. The harness instead
+prefixed every task prompt with a fixed notice that no template was configured,
+so we treat this condition only as a prompt-variant control and draw no
+conclusions about jailbreak prompting; its traces keep the harness label
+\texttt{jailbreak}. The
+\emph{uncensored} condition name is retained in the harness for compatibility
+with earlier Gemma runs; in cross-family text we describe the comparison models
+more precisely as less-restricted or abliterated derivatives.
+
+\looseness=-1
+Prompt wording is part of the experimental artifact. It is versioned, hashed,
+and kept constant within each reported condition. Three additional
+authorization prompt variants are evaluated on a matched 10-task Gemma 31B
+subset to test whether authorized-condition behavior is wording-sensitive.
+
+\subsection{Judging and Labels}
+
+Every failed run receives exactly one failure label from the label taxonomy in
+Appendix~\ref{app:supplementary-tables}. Secondary labels may be recorded, but
+that single label is the aggregation key. Automated predicates decide success.
+To check whether these labels and grounding bins are auditable, two independent
+LLM reviewer passes label the same blind stratified packet of redacted traces;
+the packet excludes condition, original label, deterministic grounding score,
+and harness checker reason.

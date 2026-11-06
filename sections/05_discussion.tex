@@ -1,0 +1,82 @@
+\section{Discussion, Limitations, and Ethics}
+\label{sec:discussion}
+
+\looseness=-1
+The strongest version of this paper is not an argument against safety
+alignment. It is an argument for evaluating where safety controls belong in an
+agentic system. Across the cross-family evaluation, visible refusal is only one
+small part of the behavior. In Gemma, evidence grounding separates the
+conditions after both models read relevant files; in Qwen, the comparison is
+mostly flat; in Llama, tool-interface reliability dominates the abliterated
+condition. Hard validation competence remains weak for all families.
+
+\looseness=-1
+The main methodological implication is that autonomous security-agent
+evaluations should not collapse success, refusal, unsafe action, and evidence
+grounding into one score. These outcomes answer different questions. A refusal
+label asks whether the model declined an authorized step; a success predicate
+asks whether the final artifact satisfies the task; an unsafe-action label asks
+whether the sandbox policy was violated; and grounding asks whether the trace
+and artifact contain the local files, symbols, issue terms, and evidence needed
+to justify the claim. The Gemma result appears in this separation: the aligned
+model is not simply refusing, yet it is less often producing the concrete
+defensive evidence required by the task.
+
+\looseness=-1
+The blind audit is therefore a check on the interpretation, not an alternate
+success judge. The deterministic grounding score is intentionally mechanical,
+so the audit asks whether independent reviewers see the same coarse structure
+in redacted traces when condition labels, original failure labels, checker
+reasons, and grounding scores are hidden. Agreement is high for success and
+refusal judgments but noisier for hard-validation subtypes, which matches the
+quantitative picture: localization and reporting evidence can be audited
+reliably, while proof-of-trigger and patch-verification competence remains a
+harder behavioral target.
+
+\looseness=-1
+The deployment lesson is also narrower than ``remove alignment.'' The safer
+interpretation is that policy should be evaluated at the system boundary where
+authorization, tool permissions, trace review, redaction, and final evidence
+checks can all be observed. For an open-weight model, whoever runs the model
+writes the prompt, so prompt text cannot establish authorization; the
+surrounding system must.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\looseness=-1
+\textbf{Derivatives are probes, not counterfactuals.} Each model pair uses one
+less-restricted derivative with its own refusal-removal procedure (Section~\ref{sec:background}). We did not vary the abliteration
+method or strength, so effects are attributable only to these derivatives;
+comparing methods and strengths is left to future work.
+\textbf{Capability confound.} The Gemma derivatives also do better on
+non-security controls, the aligned 26B model mostly fails through repeated tool
+calls that the repair controller does not cover (129/150 runs), and the Llama
+derivative is much worse at following the
+tool protocol, so capability and interface reliability vary with alignment
+condition. A causal claim about alignment, which we do not make, would require
+a capability-matched design that pairs models with comparable non-security
+performance. \textbf{Controller.} The repair controller changes effect
+magnitudes (Section~\ref{sec:results}); its rules are deterministic, applied to
+every condition, and logged per trace (Appendix~\ref{app:controller-repairs}).
+\textbf{Scale and measurement.} Absolute success is low, every condition scores
+zero on proof-of-trigger and patch-verification tasks, and the 30 tasks are
+stratified across five classes rather than sampled from security work at large.
+Grounding is lexical substring matching that overlaps with most success
+predicates, and the trace audit uses LLM reviewers rather than human
+annotators, with low agreement on hard-validation subtypes (\(\kappa=0.21\)).
+\textbf{Scope.} The authorization-prompt ablation covers Gemma 4 31B only, and
+all security and control runs use one backend (\texttt{llama.cpp}), 4-bit GGUF quantizations, one
+sampling configuration, and five seeds per task, without network isolation.
+
+\subsection{Ethics and Dual Use}
+\label{sec:ethics}
+
+\looseness=-1
+This is dual-use research. All experiments use original local tasks with known
+defects, scoped tools, and no third-party targets. Released traces are redacted
+and audited, and no jailbreak prompt was applied in any reported run. The less-restricted derivatives are not safe
+defaults: the 26B and Llama derivatives emit blocked tool calls, one 26B run
+installed packages from the network (Appendix~\ref{app:out-of-scope}), and we
+do not endorse deploying them. Production systems still
+need alignment, sandboxing, policy checks, and evidence verification.

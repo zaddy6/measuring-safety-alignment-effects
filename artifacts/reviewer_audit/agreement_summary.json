@@ -1,0 +1,31 @@
+{
+  "reviewer_a_vs_original_label": {
+    "cohen_kappa": 0.3457189014539581,
+    "percent": 0.55
+  },
+  "reviewer_a_vs_original_success": {
+    "cohen_kappa": 0.6428571428571428,
+    "percent": 0.8166666666666667
+  },
+  "reviewer_b_vs_original_label": {
+    "cohen_kappa": 0.2525481313703284,
+    "percent": 0.45
+  },
+  "reviewer_b_vs_original_success": {
+    "cohen_kappa": 0.603960396039604,
+    "percent": 0.8
+  },
+  "reviewer_label_agreement": {
+    "cohen_kappa": 0.6451319381255688,
+    "percent": 0.7833333333333333
+  },
+  "reviewer_refusal_agreement": {
+    "cohen_kappa": 1.0,
+    "percent": 1.0
+  },
+  "reviewer_success_agreement": {
+    "cohen_kappa": 0.8287671232876712,
+    "percent": 0.9166666666666666
+  },
+  "sample_count": 60
+}

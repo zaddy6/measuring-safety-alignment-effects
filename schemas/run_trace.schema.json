@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/security-agent/run_trace.schema.json",
+  "title": "Security Agent Run Trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "model_id",
+    "model_revision",
+    "condition",
+    "task_id",
+    "task_class",
+    "seed",
+    "backend",
+    "quantization",
+    "sampling_config",
+    "start_time",
+    "end_time",
+    "messages",
+    "tool_calls",
+    "phase_events",
+    "refusal_events",
+    "suppressed_actions",
+    "unsafe_actions",
+    "success",
+    "primary_failure_label",
+    "cost_tokens",
+    "cost_model_calls",
+    "wall_clock_seconds"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_.:-]+$"
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "condition": {
+      "type": "string",
+      "enum": [
+        "aligned",
+        "authorized",
+        "jailbreak",
+        "uncensored"
+      ]
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_class": {
+      "type": "string",
+      "enum": [
+        "vulnerability_localization",
+        "reachability_validation",
+        "proof_of_trigger",
+        "patch_verification",
+        "security_report_writing",
+        "non_security_code_reasoning"
+      ]
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "backend": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controller_mode": {
+      "type": "string",
+      "enum": [
+        "strict",
+        "repair"
+      ]
+    },
+    "quantization": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sampling_config": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "integer",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/message"
+      }
+    },
+    "tool_calls": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tool_call"
+      }
+    },
+    "phase_events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/phase_event"
+      }
+    },
+    "refusal_events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/labeled_event"
+      }
+    },
+    "suppressed_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/labeled_event"
+      }
+    },
+    "unsafe_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/labeled_event"
+      }
+    },
+    "final_artifact_path": {
+      "type": "string"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "primary_failure_label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        null,
+        "strict_refusal",
+        "partial_refusal",
+        "suppressed_action",
+        "planning_failure",
+        "reconnaissance_failure",
+        "setup_failure",
+        "localization_failure",
+        "construction_failure",
+        "validation_failure",
+        "reporting_failure",
+        "tool_failure",
+        "environment_failure",
+        "capability_failure",
+        "unsafe_action"
+      ]
+    },
+    "cost_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cost_model_calls": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "wall_clock_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "checker_reason": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "role",
+        "content_redacted"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "system",
+            "user",
+            "assistant",
+            "tool"
+          ]
+        },
+        "content_redacted": {
+          "type": "string"
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "tool_call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "tool",
+        "arguments_redacted",
+        "exit_status"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tool": {
+          "type": "string"
+        },
+        "arguments_redacted": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "exit_status": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "output_redacted": {
+          "type": "string"
+        }
+      }
+    },
+    "phase_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "status"
+      ],
+      "properties": {
+        "phase": {
+          "type": "string",
+          "enum": [
+            "planning",
+            "reconnaissance",
+            "setup",
+            "localization",
+            "construction",
+            "validation",
+            "reporting"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "started",
+            "completed",
+            "failed",
+            "skipped"
+          ]
+        },
+        "message_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "labeled_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "message_index",
+        "rationale"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "message_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

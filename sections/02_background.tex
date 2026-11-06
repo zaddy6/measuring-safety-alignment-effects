@@ -1,0 +1,121 @@
+\section{Background and Related Work}
+\label{sec:background}
+
+\paragraph{Alignment and refusal.}
+Instruction tuning and reinforcement learning from human or AI feedback make
+language models more helpful and less likely to produce harmful content
+\cite{christiano2017deep,ziegler2019fine,stiennon2020learning,
+askell2021general,ouyang2022training,bai2022constitutional}. In deployed
+assistants, this often appears as refusal behavior: the model declines to
+complete requests it classifies as unsafe. Refusal is a useful safety mechanism,
+but it is a context-poor one when judged only from the prompt text. Security
+work creates many cases where the natural-language description resembles an
+attack even though the environment is authorized, local, and intentionally
+vulnerable. Prior safety evaluations show that this helpfulness-harmlessness
+tension can produce both under-refusal and over-refusal
+\cite{lin2021truthfulqa,hendrycks2021ethics,weidinger2021ethical,
+rotter2023xstest} in deployed systems.
+
+\paragraph{Robust refusal and jailbreak benchmarks.}
+HarmBench and JailbreakBench standardize the evaluation of adversarial prompts,
+harmful behaviors, and robust refusal \cite{mazeika2024harmbench,
+chao2024jailbreakbench}. StrongREJECT, XSTest, and universal prompt-attack
+work further clarify how refusal scoring, false refusal, and jailbreak
+transferability should be measured \cite{souly2024strongreject,
+rotter2023xstest,zou2023universal,wei2023jailbroken}. These benchmarks are
+valuable because they clarify threat models, scoring rules, and attack
+artifacts. Our evaluation differs in the target behavior. We do not ask whether
+a jailbreak can make a model provide harmful instructions in open-ended chat. We
+ask how refusal-oriented alignment changes task completion and evidence quality
+when an agent must act over many turns inside a controlled security environment.
+
+\paragraph{Cybersecurity capability benchmarks.}
+CyberSecEval 2, CyberSecEval 3, Cybench, NYUCTF Bench, EnIGMA, and SEC-bench
+evaluate cybersecurity risks and capabilities of language models, including
+prompt injection, exploit generation, vulnerability patching, and
+capture-the-flag style tasks \cite{bhatt2024cyberseceval,li2024cyberseceval3,
+zhang2025cybench,shao2024nyuctf,abramovich2024enigma,
+secbench2025automated}. These efforts show the importance of executable
+environments, task-specific success predicates, and partial-credit
+decomposition. We build on that benchmarking style but center paired
+comparisons that keep the harness, task, and seed fixed within each evaluated
+pair while varying the alignment condition.
+
+\paragraph{Agent benchmarks and tool use.}
+AgentBench, ReAct, Toolformer, WebShop, WebArena, InterCode, SWE-bench,
+SWE-agent, and OSWorld show that multi-turn tool use introduces failure modes
+that are invisible in single-turn question answering
+\cite{li2023agentbench,yao2023react,schick2023toolformer,yao2022webshop,
+zhou2023webarena,yang2023intercode,jimenez2024swebench,yang2024sweagent,
+xie2024osworld}. Recent critiques emphasize that agent benchmarks require
+careful success predicates, environment controls, and resistance to benchmark
+gaming \cite{kapoor2024aiagents}. These lessons motivate our use of
+machine-readable task manifests, deterministic checkers, and complete traces.
+
+\looseness=-1
+\paragraph{Defensive refusal in cybersecurity.}
+Recent work on \emph{defensive refusal bias} \cite{campbell2026defensive}
+studies the failure mode closest to ours. On 2,390 single-turn conversations
+from the National Collegiate Cyber Defense Competition, Claude 3.5 Sonnet,
+GPT-4o, and Llama-3.3-70B-Instruct together refuse defensive requests containing
+security-sensitive keywords 2.72 times as often as semantically equivalent
+neutral requests, and explicit authorization is associated with more refusals,
+not fewer. Where that study classifies refusals in response text, we evaluate
+multi-turn autonomous execution in executable sandboxes with deterministic
+success predicates, saved traces, failure phases, unsafe-action labels, and
+evidence grounding, comparing aligned models with their less-restricted
+derivatives. Both studies find that authorization wording is not a
+reliable lever: our authorized Gemma 4 31B condition succeeds in 0/150 runs.
+But none of our security traces contains a refusal event; the aligned Gemma
+models keep working and produce less-grounded artifacts, a difference that
+refusal rates miss.
+
+\paragraph{Mechanisms of refusal removal.}
+Recent mechanistic work suggests that refusal behavior in open-weight chat
+models can sometimes be controlled through low-dimensional activation
+directions \cite{arditi2024refusal}. Community ``uncensored'' or
+``abliterated'' models apply related ideas to reduce refusals. Such derivatives
+are useful for paired comparisons, but they are not perfect counterfactuals: weight
+editing, quantization, template changes, or fine-tuning may alter more than
+refusal behavior. Our protocol therefore requires matched inference settings,
+non-security sanity checks, and explicit limitations around derivative-model
+provenance.
+
+\paragraph{Model families and derivative provenance.}
+Gemma 4 is the central family because the official model cards describe
+instruction-tuned open-weight models with long context windows, coding ability,
+structured-output support, and agentic use cases
+\cite{google_gemma4_blog_2026,hf_gemma4_31b_it,hf_gemma4_26b_a4b_it}. The
+TrevorJS derivatives advertise reduced refusal behavior for the same Gemma 4
+family \cite{trevorjs_gemma4_uncensored_collection,
+trevorjs_gemma4_31b_uncensored,trevorjs_gemma4_26b_uncensored}. The 26B
+evaluation uses local GGUF quantizations from Unsloth and TrevorJS
+\cite{unsloth_gemma4_26b_a4b_gguf,trevorjs_gemma4_26b_uncensored_gguf}.
+
+The cross-family evaluation also includes Qwen2.5-Coder 7B and Llama 3.1 8B.
+For each additional family, the aligned condition uses an instruction-tuned
+GGUF release and the comparison condition uses an abliterated derivative
+distributed as a GGUF quantization
+\cite{qwen25coder7b_gguf,qwen25coder7b_abliterated_gguf,
+llama31_8b_instruct_gguf,llama31_8b_abliterated_gguf}. These are not clean
+causal counterfactuals for safety alignment. We therefore report them as
+cross-family comparisons and treat model provenance as part of the
+interpretation rather than as a nuisance detail.
+
+\looseness=-1
+The derivatives also remove refusals in different ways, so we attribute
+effects to these specific transformations rather than to abliteration in
+general. According to the model cards, the Gemma 4 31B derivative uses
+norm-preserving biprojected abliteration \cite{grimjim2025normpreserving},
+projecting per-layer refusal directions out of the attention-output and MLP
+down-projection weights of every layer while preserving row norms
+\cite{trevorjs_gemma4_31b_uncensored}; the 26B A4B derivative additionally
+applies expert-granular abliteration to all 128 expert down-projections in each
+mixture-of-experts layer \cite{trevorjs_gemma4_26b_uncensored}. The Llama 3.1
+derivative uses refusal-direction abliteration \cite{arditi2024refusal} via
+FailSpy's implementation \cite{mlabonne_llama31_8b_abliterated}; the
+Qwen2.5-Coder derivative is an abliterated release by huihui-ai whose GGUF card
+does not document the procedure \cite{qwen25coder7b_abliterated_gguf}. None
+isolates safety fine-tuning: public base checkpoints precede instruction tuning
+altogether, and no official instruction-tuned checkpoints of these models
+without safety training are available.

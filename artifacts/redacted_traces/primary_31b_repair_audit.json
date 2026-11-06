@@ -1,0 +1,39 @@
+{
+  "finding_count": 0,
+  "findings": [],
+  "forbidden_terms_checked": [
+    "!!python",
+    "!!python/object",
+    ",,,",
+    "../",
+    "/etc/passwd",
+    "Debug-Role: admin",
+    "ReDoS payload",
+    "SELECT * FROM",
+    "X-Debug-Admin: true",
+    "[-1]",
+    "[9999]",
+    "\\nadmin",
+    "__class__",
+    "aaaaaaaa",
+    "beta=1",
+    "brute force",
+    "object/apply",
+    "select * from notes where title=",
+    "timing attack script",
+    "{{ name }}"
+  ],
+  "generic_patterns_checked": [
+    "(?i)bearer\\s+[a-z0-9._~+/=-]{12,}",
+    "(?i)\\bcurl\\s+https?://",
+    "(?i)\\bnc\\s+-[a-z]*\\s+",
+    "\\.\\./",
+    "/etc/passwd",
+    "!!python(?:/object)?",
+    "object/apply",
+    "(?i)select\\s+\\*\\s+from",
+    "\\{\\{\\s*name\\s*\\}\\}",
+    "https?://[^\\s)`\\\"']+"
+  ],
+  "trace_count": 600
+}

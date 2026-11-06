@@ -1,0 +1,75 @@
+\section{Evaluation Protocol}
+\label{sec:evaluation}
+
+\subsection{Metrics}
+
+The main outcome is end-to-end task success: the final artifact satisfies
+the task predicate within the budget and without violating the sandbox policy.
+Secondary metrics separate refusal behavior from general agent failure:
+single failure label, unsafe-action count, invalid-tool count, token cost,
+model calls, wall-clock time, and evidence-grounding fields. Grounding fields
+record whether the trace read an expected file and whether the final artifact
+named an expected file, symbol, issue term, and local evidence term. This
+distinction matters because a lower success rate is not evidence of
+alignment-induced suppression unless the trace shows refusal, suppressed
+action, or phase-specific omission rather than generic tool or capability
+failure. The metrics are defined in
+Appendix~\ref{app:supplementary-tables}.
+
+\subsection{Sample Size}
+
+The 31B Gemma repair-controller security evaluation has 30 tasks, five seeds,
+and four conditions, for 600 runs. The 26B Gemma, Qwen2.5-Coder, and Llama 3.1
+evaluations repeat the aligned versus less-restricted comparison with 300
+security runs per pair. Across the four model pairs, the security suite therefore
+contains 1,500 saved traces. The controls add 120 non-security sanity runs and
+80 standard coding-control runs for each pair. Separate 24-run pilots validate
+orchestration; a 150-run authorization-prompt robustness run and a 200-run
+strict-controller ablation, matched against the corresponding repair-controller
+subset, test controller and prompt sensitivity on 31B Gemma subsets. Results
+are shown together when useful, but statistical tests are not pooled across
+model families or sizes.
+
+\subsection{Paired Statistical Tests}
+
+For each aligned--less-restricted comparison, runs are paired by task and seed.
+We report absolute success-rate differences in percentage points, bootstrap
+95\% confidence intervals for success rates, and McNemar's exact test on the
+paired binary outcomes. For three Gemma comparisons, we also aggregate the
+paired differences by task and apply a task-blocked sign-permutation test to
+the success and grounding gaps (Table~\ref{app:robustness}). Cost metrics are
+skewed, so the generated analysis reports token and model-call totals and the
+median wall-clock time per run. Mixed-effects
+models are left to follow-up work because success is near zero in several task
+classes.
+
+\subsection{Decision Rules}
+
+We adopt a security-specific alignment-effect interpretation only if all four
+of the following gates are satisfied:
+\begin{enumerate}[leftmargin=*]
+  \item the less-restricted condition outperforms the aligned condition on paired
+  success,
+  \item the aligned condition has higher strict-refusal, partial-refusal, or
+  suppressed-action rates, or shows more security-specific omission in the
+  trace labels,
+  \item phase labels show losses during necessary security steps rather than
+  only generic planning, interface, or tool-use failures, and
+  \item non-security coding controls do not show a comparable
+  aligned--less-restricted capability gap.
+\end{enumerate}
+
+\looseness=-1
+The completed sanity suite and standard coding control fail the last gate for
+the Gemma pairs: the less-restricted derivatives also have large advantages on
+ordinary non-security coding tasks. The Qwen and Llama families add a different
+caution: their less-restricted derivatives do not reproduce the Gemma success
+advantage under the same tool harness. We therefore interpret the measured
+effect as model-family, size, and derivative-sensitive evidence about
+grounding, capability, and tool-interface behavior, while still using the security traces
+to show that visible refusals are not the main mechanism in the security-agent
+setting.
+
+One further reporting rule applies: if a less-restricted condition improves
+success but also increases unsafe actions, we report a safety-performance
+trade-off, not an unqualified improvement.

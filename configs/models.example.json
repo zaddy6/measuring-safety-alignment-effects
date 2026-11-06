@@ -1,0 +1,84 @@
+{
+  "defaults": {
+    "backend": "openai-compatible",
+    "quantization": "GGUF-Q4_K_M-or-matched",
+    "sampling_config": {
+      "temperature": 0.2,
+      "top_p": 0.95,
+      "max_tokens": 512,
+      "stop": ["<tool_call|>", "<turn|>", "<|tool_response>"]
+    }
+  },
+  "conditions": {
+    "aligned": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "authorized": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "auth-scope": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "auth-evidence": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "auth-policy": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "jailbreak": {
+      "model_id": "google/gemma-4-31B-it",
+      "model_revision": "gguf-sha256:4f369f8fe0e1bedc5caee9abb89316887f548f80f3035398a5d222a737e699e6",
+      "base_url": "http://127.0.0.1:8081/v1",
+      "prompt_template_hash": "set-after-private-template-is-final",
+      "repo_url": "https://huggingface.co/google/gemma-4-31B-it",
+      "gguf_repo_url": "https://huggingface.co/ggml-org/gemma-4-31B-it-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-GGUF/gemma-4-31B-it-Q4_K_M.gguf"
+    },
+    "uncensored": {
+      "model_id": "TrevorJS/gemma-4-31B-it-uncensored-GGUF",
+      "model_revision": "gguf-sha256:14a465017c087e60f77ebf2cb7d10622794a6b9112fe977aa3df43486079ae81",
+      "base_url": "http://127.0.0.1:8082/v1",
+      "repo_url": "https://huggingface.co/TrevorJS/gemma-4-31B-it-uncensored-GGUF",
+      "local_gguf": ".local_tools/models/gemma-4-31B-it-uncensored-GGUF/gemma-4-31B-it-uncensored-Q4_K_M.gguf"
+    }
+  },
+  "replication_conditions": {
+    "aligned_26b_a4b": {
+      "model_id": "google/gemma-4-26B-A4B-it",
+      "model_revision": "pin-after-download",
+      "base_url": "http://127.0.0.1:8091/v1",
+      "repo_url": "https://huggingface.co/google/gemma-4-26B-A4B-it"
+    },
+    "uncensored_26b_a4b": {
+      "model_id": "TrevorJS/gemma-4-26B-A4B-it-uncensored",
+      "model_revision": "pin-after-download",
+      "base_url": "http://127.0.0.1:8092/v1",
+      "repo_url": "https://huggingface.co/TrevorJS/gemma-4-26B-A4B-it-uncensored"
+    }
+  }
+}

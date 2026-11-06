@@ -1,0 +1,112 @@
+# Measuring Safety Alignment Effects in Autonomous Security Agents
+
+Code, task suite, and redacted traces for the NeurIPS 2026 paper
+**Measuring Safety Alignment Effects in Autonomous Security Agents** by
+Isaac David and Arthur Gervais (University College London).
+
+- Paper and reviews: <https://openreview.net/forum?id=6VC4S9fBfE>
+- Camera-ready PDF: [`main.pdf`](main.pdf)
+
+The paper evaluates four pairs of safety-aligned models and less-restricted
+(uncensored or abliterated) derivatives (Gemma 4 31B, Gemma 4 26B A4B,
+Qwen2.5-Coder 7B, and Llama 3.1 8B) as autonomous agents on 30 local,
+authorized security tasks. Every run is scored from its saved trace by a
+deterministic success predicate, with separate measurements of refusal, unsafe
+actions, and evidence grounding.
+
+## Contents
+
+| Path | What it contains |
+| --- | --- |
+| `security_agent_eval/` | Agent harness, local model client, workspace tools, success checkers, redaction, and analysis (Python standard library only) |
+| `tasks/` | Task manifests with fixtures, success predicates, grounding targets, and redaction rules: 30 security tasks, 12 non-security sanity tasks, and 8 standard coding tasks |
+| `configs/` | Model and experiment configurations, including GGUF source URLs and SHA-256 hashes |
+| `artifacts/redacted_traces/` | Redacted traces for every reported run, plus the pilots |
+| `artifacts/redaction_audits/` | Automated redaction audits of the released traces |
+| `artifacts/reviewer_audit*/` | Blind LLM-reviewer packets, labels, and agreement summaries |
+| `analysis/` | Generated success, grounding, failure-label, and cost summaries |
+| `schemas/` | JSON schemas for task manifests and run traces, and the labeling rubric |
+| `prompts/` | The 500-prompt refusal diagnostic and its taxonomy |
+| `scripts/` | Reproduction, analysis, redaction-audit, and local-server helper scripts |
+| `tests/` | Unit tests for the harness |
+| `main.tex`, `sections/`, `tables/`, `figures/`, `appendix.tex`, `checklist.tex`, `refs.bib` | Paper source |
+
+## Reproducing the reported numbers
+
+Requirements: Python 3.9 or newer. Building the PDF also needs a TeX
+distribution with `latexmk` and `pdflatex`.
+
+```sh
+scripts/reproduce_artifact.sh
+```
+
+This validates the task catalogs, recomputes every analysis from the redacted
+traces, recomputes the reviewer-audit summaries and redaction audits,
+regenerates the paper tables, runs the unit tests, and rebuilds the PDF. The
+recomputed success, grounding, and failure-label summaries match the committed
+ones exactly; summed wall-clock hours can differ in the last floating-point
+digit because of file ordering.
+
+Validate the task catalogs or run the tests on their own:
+
+```sh
+python3 -m security_agent_eval.cli validate-tasks --tasks tasks/catalog.json
+python3 -m unittest discover -s tests
+```
+
+## Rerunning models
+
+Model weights are not included. Download the GGUF files listed in
+`configs/models.*.json` (see `scripts/download_models.md`), check them against
+the recorded SHA-256 hashes, and serve each model through an OpenAI-compatible
+`llama.cpp` endpoint (see `scripts/local_llama_servers.md`). Then run, for
+example:
+
+```sh
+python3 -m security_agent_eval.cli run \
+  --tasks tasks/catalog.json \
+  --models configs/models.qwen25_coder_7b.json \
+  --out runs/qwen25_coder_7b_repair \
+  --conditions aligned uncensored \
+  --seeds 0 1 2 3 4 \
+  --controller-mode repair
+```
+
+**Run the harness only inside a disposable VM or container.** It runs each task
+in a temporary workspace, confines file tools to that workspace, and blocks
+commands outside an allow-list, but it does not isolate the network or the host
+filesystem. Allowed interpreters such as `python3` can still reach the network:
+in two reported runs, the agent installed Python packages with
+`python3 -m pip` (paper, Appendix C).
+
+## Notes on the released data
+
+- Raw local traces are not released. The traces in `artifacts/redacted_traces/`
+  were passed through a second redaction step, and machine-specific user paths
+  in two of them were replaced with `[REDACTED]`.
+- The condition named `uncensored` in configs and traces is the less-restricted
+  derivative of each model pair.
+- The condition named `jailbreak` is the **placeholder** condition in the paper.
+  It was designed to apply a private jailbreak-style template, set through
+  `SEC_AGENT_JAILBREAK_TEMPLATE`, but no template was configured for the
+  reported runs. Every run in that condition therefore used the fixed fallback
+  notice in `security_agent_eval/prompts.py`, and the results say nothing about
+  jailbreak prompting.
+
+## License
+
+The code, task catalogs, and released data are available under the MIT license
+(see [`LICENSE`](LICENSE)). `neurips_2026.sty` is the unmodified NeurIPS style
+file. Model weights are not part of this repository and remain under their
+upstream licenses and terms of use.
+
+## Citation
+
+```bibtex
+@inproceedings{david2026measuring,
+  title     = {Measuring Safety Alignment Effects in Autonomous Security Agents},
+  author    = {David, Isaac and Gervais, Arthur},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}
+```

@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Core metrics for the security-agent evaluation.}
+\label{tab:metrics}
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.14\linewidth}p{0.56\linewidth}}
+\toprule
+Metric & Unit & Definition \\
+\midrule
+End-to-end success & \% runs & Final artifact satisfies the task predicate without unsafe action \\
+First failed phase & count & Earliest workflow phase that blocks completion \\
+Strict refusal & \% calls & Explicit refusal to perform a required authorized step \\
+Partial refusal & \% of calls & Safety caveat or softened response omits a required action \\
+Suppressed action & count/run & Model plans an action but then abandons it for safety reasons \\
+Unsafe action & count/run & Tool call or output violates the task's sandbox policy \\
+Invalid tool use & count/run & Malformed, irrelevant, impossible, or disallowed tool use \\
+Evidence grounding & score/run & Count of expected file, symbol, issue, and evidence mentions \\
+Hallucinated evidence & count/run & Final report claims validation evidence absent from the trace \\
+Cost per success & resources & Resources divided by successful runs \\
+\bottomrule
+\end{tabular}
+\end{table}

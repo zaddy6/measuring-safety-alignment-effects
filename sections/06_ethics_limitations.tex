@@ -1,0 +1,27 @@
+\section{Conclusion}
+
+\looseness=-1
+This paper turns a common concern about safety alignment into a concrete
+measurement problem. In the Gemma 4 pairs, the aligned models usually keep
+working but produce less grounded artifacts, while the less-restricted
+derivatives also do better on non-security controls. In Qwen2.5-Coder and
+Llama 3.1, the same pattern does not hold. The result is therefore not a clean
+security-specific alignment effect and not a general endorsement of
+less-restricted derivatives. It is evidence that autonomous security-agent
+behavior depends on grounding, capability, derivative provenance, and
+tool-interface reliability.
+
+The practical conclusion is that safety evaluations for security agents should
+be trace-based and evidence-aware. They should ask not only whether a model
+refuses, but whether it reads the right local evidence, uses authorized tools
+without escaping the sandbox, names the relevant program objects, and produces
+a final artifact that a defender could act on. They should also test ordinary
+coding controls, because a security-task gap is hard to interpret without a
+baseline for general agent reliability. In this study, removing alignment
+recovers some grounded behavior for Gemma, but it introduces unsafe-action
+events for the 26B derivative and does not solve hard proof and patch
+verification. The right object of
+evaluation is the whole agentic system: the model, tools, authorization
+boundary, trace evidence, and final checker together. That is the standard a
+security-agent benchmark should measure, not a transcript-level refusal rate
+alone.

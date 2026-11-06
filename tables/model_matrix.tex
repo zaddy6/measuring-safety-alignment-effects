@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Model pairs and conditions. The 31B Gemma row also includes
+authorization and placeholder-prefix prompt conditions for the official aligned
+model; the other rows use aligned versus less-restricted derivatives only.}
+\label{tab:model-matrix}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.14\linewidth}
+  >{\raggedright\arraybackslash}p{0.25\linewidth}
+  >{\raggedright\arraybackslash}p{0.30\linewidth}
+  >{\raggedright\arraybackslash}p{0.17\linewidth}@{}}
+\toprule
+Model pair & Aligned model & Less-restricted counterpart & Purpose \\
+\midrule
+Gemma 4 31B & Official instruction-tuned model & TrevorJS 31B uncensored GGUF & Main matched pair \\
+Gemma 4 26B A4B & Official A4B instruction-tuned model & TrevorJS 26B A4B uncensored GGUF & Gemma size check \\
+Qwen2.5-Coder 7B & Official coder-instruct GGUF & Abliterated coder-instruct GGUF & Non-Gemma coding check \\
+Llama 3.1 8B & Instruction-tuned GGUF & Abliterated instruction-tuned GGUF & Non-Gemma chat check \\
+\bottomrule
+\end{tabular}
+\end{table}

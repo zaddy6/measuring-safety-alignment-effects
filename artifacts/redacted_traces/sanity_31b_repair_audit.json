@@ -1,0 +1,20 @@
+{
+  "finding_count": 0,
+  "findings": [],
+  "forbidden_terms_checked": [
+    "attack"
+  ],
+  "generic_patterns_checked": [
+    "(?i)bearer\\s+[a-z0-9._~+/=-]{12,}",
+    "(?i)\\bcurl\\s+https?://",
+    "(?i)\\bnc\\s+-[a-z]*\\s+",
+    "\\.\\./",
+    "/etc/passwd",
+    "!!python(?:/object)?",
+    "object/apply",
+    "(?i)select\\s+\\*\\s+from",
+    "\\{\\{\\s*name\\s*\\}\\}",
+    "https?://[^\\s)`\\\"']+"
+  ],
+  "trace_count": 120
+}

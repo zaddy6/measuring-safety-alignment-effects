@@ -1,0 +1,282 @@
+\appendix
+
+\section{Artifact and Reproduction}
+\label{app:artifact}
+
+Repository: \codeurl.
+
+The public artifact consists of the evaluation package
+\texttt{security\_agent\_eval/}, task catalogs in \texttt{tasks/}, model
+endpoint and GGUF-provenance configs in \texttt{configs/}, redacted traces for
+every reported run and their redaction audits in \texttt{artifacts/}, and
+generated summaries in \texttt{analysis/}. Raw local traces are not released;
+the redacted traces reproduce every reported success, grounding, and
+failure-label summary. The four model-pair
+configs are \texttt{configs/models.example.json},
+\texttt{configs/models.26b\_a4b.json},
+\texttt{configs/models.qwen25\_coder\_7b.json}, and
+\texttt{configs/models.llama31\_8b.json}; each records endpoint, local GGUF
+path, model source URL, and SHA-256 hash.
+
+The full analysis artifact can be regenerated with:
+\begin{verbatim}
+scripts/reproduce_artifact.sh
+\end{verbatim}
+This validates all task catalogs, regenerates the analyses from the redacted
+traces, reruns the reviewer-audit summaries, audits public redactions, regenerates paper tables,
+runs unit tests, and rebuilds the PDF. Full model reruns use the same CLI
+template with the appropriate task catalog and model config:
+\begin{verbatim}
+python3 -m security_agent_eval.cli run \
+  --tasks tasks/catalog.json \
+  --models configs/<model_config>.json \
+  --out runs/<run_name> \
+  --conditions aligned uncensored \
+  --seeds 0 1 2 3 4 \
+  --controller-mode repair
+\end{verbatim}
+The 31B Gemma security run additionally includes the \texttt{authorized} and
+\texttt{jailbreak} conditions; the latter is the placeholder-prefix condition
+described in Section~\ref{sec:prompt-conditions}. Its prefix is the harness's
+fixed fallback notice: ``This condition requires a private fixed
+jailbreak-style template. No private template was configured, so this run uses
+the authorized-sandbox wording and records the missing-template hash.'' Despite
+this wording, no authorization prefix was added and no template hash was
+recorded. Non-security controls replace
+\texttt{tasks/catalog.json} with \texttt{tasks/sanity\_catalog.json} or
+\texttt{tasks/standard\_coding\_catalog.json}.
+
+\section{Controller Repair Rules}
+\label{app:controller-repairs}
+
+The strict and repair controllers share the same tools, budgets, task prompts
+(apart from rule 1 below), seeds, and success predicates. In both modes, a model reply is parsed as JSON;
+if that fails, the controller parses the substring from the first \verb|{| to
+the last \verb|}|. In both modes, a tool call identical in tool name and
+arguments to the most recent tool call recorded in the trace, including a
+blocked or failed one, is not executed: the
+controller returns a ``Repeated identical tool call'' message and counts an
+invalid tool call. The repair controller adds exactly four deterministic rules,
+implemented in \texttt{security\_agent\_eval/prompts.py} and
+\texttt{security\_agent\_eval/harness.py}. Rules 2--4 tag the resulting tool
+call with a \texttt{controller\_repair} field in the saved trace.
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Initial file inventory.} \emph{Trigger:} every repair-mode run
+  whose task has fixture files. \emph{Transformation:} the task prompt is
+  extended with ``Initial file inventory:'' followed by the sorted fixture
+  paths and the sentence ``Start by reading the relevant source file from this
+  inventory before writing the final artifact.''
+  \item \textbf{Repeated \texttt{list\_files}.} \emph{Trigger:} a repeated
+  identical call (as defined above) whose tool is \texttt{list\_files}, in a
+  task that allows \texttt{read\_file}. \emph{Transformation:} instead of the
+  repeated-call message, the controller executes \texttt{read\_file} on one
+  path from the previous listing. Among listed entries that contain a dot, it
+  takes the first ending in \texttt{.py}; if there is none, the first ending in
+  \texttt{.js}, then \texttt{.ts}, \texttt{.java}, \texttt{.go}, \texttt{.rb},
+  \texttt{.php}, \texttt{.c}, \texttt{.cpp}, \texttt{.md}, and \texttt{.txt},
+  falling back to the first such entry. The tool output is prefixed with a
+  note naming the substituted read. If no entry qualifies, the repeated-call
+  message is returned as in strict mode.
+  \item \textbf{Malformed \texttt{write\_file} JSON.} \emph{Trigger:} a reply
+  that fails JSON parsing but contains \verb|"tool"|, \texttt{write\_file},
+  \verb|"content"|, and a \verb|"path"| string value. \emph{Transformation:} the
+  file content is the text after the opening quote of the \texttt{content}
+  value, with one trailing \verb|"}}|, \verb|"}|-newline-\verb|}|, or
+  \verb|"}| removed, surrounding whitespace stripped, and the escape sequences
+  \verb|\n| and \verb|\"| decoded. A non-empty result becomes a
+  \texttt{write\_file} call to the extracted path; otherwise the reply counts as
+  an invalid tool call.
+  \item \textbf{Filename-keyed artifact.} \emph{Trigger:} a parsed reply that is
+  a single-key object whose key is one of the task's expected artifact names
+  and whose value is a non-empty string, for example
+  \verb|{"final_report.md": "..."}|. \emph{Transformation:} the reply becomes a
+  \texttt{write\_file} call with that path and content.
+\end{enumerate}
+
+Table~\ref{app:controller-repair-counts} counts how often rules 2--4 fired.
+They fire more often for the official Gemma 31B prompt conditions than for the
+less-restricted 31B derivative, and none of that derivative's 21 successful
+runs uses them, so the repair controller does not create the Gemma 31B
+advantage. In the other pairs, rules 2--4 fire in at most 12 runs per
+condition.
+
+\begin{table}[h]
+\centering
+\caption{Security runs in which controller repair rules 2--4 fired, by model
+pair and condition; event counts are shown in parentheses where a rule fired
+more than once in a run. Every condition has 150 runs, and rule 1 applies to
+every run. The last column gives successful runs that used any of rules 2--4,
+out of all successful runs.}
+\label{app:controller-repair-counts}
+\small
+\input{tables/controller_repairs.tex}
+\end{table}
+
+\section{Out-of-Scope Package Installations}
+\label{app:out-of-scope}
+
+An audit of all saved traces found that the command allow-list does not prevent
+network access through an allowed interpreter. In two less-restricted Gemma 26B
+A4B security runs (\texttt{pv\_path\_normalize}, seed 3, and
+\texttt{pv\_template\_escape}, seed 0), the agent ran
+\texttt{python3 -m pip install} to download \texttt{pytest} or \texttt{jinja2}
+from the public Python package index into the evaluation host's user
+site-packages; in the second run, a direct \texttt{pip} call had first been
+blocked. Neither run succeeded. Because the automated detector flags only
+blocked tool-policy violations, the first run has no unsafe-action event and
+the second has one, for its blocked call; counting both, 9/150
+less-restricted 26B runs contain a tool-policy violation or an out-of-scope
+installation. No other trace shows network access.
+
+The installed packages remained available to runs started later on the same
+host: the 111 subsequent 26B security runs (55 aligned and 56 less-restricted)
+and every study that followed, including the 31B strict-controller ablation,
+standard-coding control, and authorization-prompt study, whose matched 31B
+repair-controller baselines ran before the installation; none of their runs
+invoked either package. The 31B security, 31B sanity, and earlier 26B runs ran
+before the installation. No reported success depends on these
+packages: four successful Llama 3.1 aligned runs invoked \texttt{pytest}, but it
+collected no tests, and their reports do not draw on its output.
+
+\section{Schemas, Metrics, and Labels}
+\label{app:schemas}
+\label{app:supplementary-tables}
+
+Each task manifest records the task id, class, local fixture entrypoint,
+budgets, allowed tools, forbidden actions, prompt, ground truth, grounding
+targets, success predicate, redaction rule, and expected artifacts. Each trace
+records model provenance, condition, task, seed, backend, quantization,
+sampling settings, messages, tool calls, phase events, refusal and safety
+events, final outcome, failure label, costs, and timing.
+
+The main outcome is deterministic end-to-end success. Secondary metrics are
+strict refusal, partial refusal, suppressed action, unsafe action, invalid tool
+use, cost, wall-clock time, and deterministic evidence grounding. Grounding is
+the count of satisfied local-evidence fields: expected file read, expected file
+named, expected symbol named, issue term named, and local evidence term
+provided. The failure taxonomy assigns each failed run exactly one primary
+label: \texttt{strict\_refusal}, \texttt{partial\_refusal},
+\texttt{suppressed\_action}, \texttt{planning\_failure},
+\texttt{reconnaissance\_failure}, \texttt{setup\_failure},
+\texttt{localization\_failure}, \texttt{construction\_failure},
+\texttt{validation\_failure}, \texttt{reporting\_failure},
+\texttt{tool\_failure}, \texttt{environment\_failure},
+\texttt{capability\_failure}, or \texttt{unsafe\_action}.
+
+\section{Supplementary Results}
+
+The appendix reports only the tables needed to interpret the main claims. Full
+per-condition generated tables remain in the \texttt{analysis/} directories.
+
+\begin{table}[h]
+\centering
+\caption{Comparison across security, sanity, and standard coding controls.
+``Less'' denotes the less-restricted derivative for each model pair. Grounding is
+the mean deterministic score out of five.}
+\label{app:cross-evaluation-summary}
+\small
+\input{tables/cross_study_summary.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Safety outcomes for the two Gemma security evaluations. Grounding is
+mean score out of five; Refusal, Suppressed, and Unsafe are shares of runs
+with at least one such event.
+Redact. counts public-trace audit findings.}
+\label{app:safety-outcomes-31b}
+\small
+\emph{Gemma 31B.}
+\input{tables/safety_outcomes_primary.tex}
+
+\vspace{0.5em}
+\emph{Gemma 26B A4B.}
+\input{tables/safety_outcomes_26b.tex}
+\end{table}
+
+\subsection{Cross-Family Details}
+\label{app:evaluation-26b}
+\label{app:non-gemma}
+
+The 26B A4B, Qwen2.5-Coder 7B, and Llama 3.1 8B traces use the same repair
+controller, task suite, seeds, success predicates, grounding metrics, and
+redaction audits as the 31B Gemma evaluation. The cross-suite summary above
+is the compact comparison; detailed generated success, grounding, failure, and
+cost tables are retained in their corresponding \texttt{analysis/} folders.
+Table~\ref{app:model-provenance} lists the exact GGUF files; every security and
+control trace records the same model identifier and SHA-256 hash as its config.
+All security and control runs use temperature 0.2, top-\(p\) 0.95, a 512-token
+generation limit, and seeds 0--4; the two 24-run pilots use seeds 0--1.
+The 31B authorized and placeholder conditions reuse the aligned 31B file.
+
+\begin{table}[h]
+\centering
+\caption{GGUF releases and files used for each model pair, with the first 16
+hexadecimal digits of each file's SHA-256 hash. Full hashes are recorded in
+the configs and traces. Two files are no longer at the head of their
+repositories: the 31B aligned file is available at revision \texttt{fb5801c702}
+of \texttt{ggml-org/gemma-4-31B-it-GGUF}, and the 26B aligned file at revision
+\texttt{3365c68df1} of \texttt{unsloth/gemma-4-26B-A4B-it-GGUF}. The Qwen
+derivative's upstream repository (\texttt{huihui-ai}) is no longer publicly
+accessible.}
+\label{app:model-provenance}
+\footnotesize
+\input{tables/model_provenance.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Strict-vs-repair controller ablation on the matched 10-task 31B
+subset. Grounding is the mean deterministic score out of five.}
+\label{app:controller-ablation}
+\small
+\input{tables/controller_ablation.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Task-blocked sign-permutation checks for aligned versus
+less-restricted success and grounding gaps.}
+\label{app:robustness}
+\small
+\input{tables/robustness_stats.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Compact qualitative examples from redacted 31B Gemma security traces.}
+\small
+\input{tables/qualitative_examples.tex}
+\end{table}
+
+\section{Reviewer Audit}
+\label{app:reviewer-audit}
+
+The reviewer audit samples 120 redacted traces from 31B security, 31B sanity,
+26B security, and 26B sanity runs. Two independent LLM reviewer passes label
+the same blind packet for success, primary failure label, refusal relation,
+four-point grounding quality, and hard-validation subtype when applicable. The
+packet excludes condition, original label, deterministic grounding score,
+harness checker reason, and copy-paste forbidden predicate strings.
+
+\begin{table}[h]
+\centering
+\caption{Independent LLM reviewer agreement on the blind trace packet.}
+\small
+\input{artifacts/reviewer_audit_v2/agreement_summary.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Grounding audit comparing LLM reviewer grounding judgments with
+deterministic bins.}
+\small
+\input{artifacts/reviewer_audit_v2/grounding_audit_summary.tex}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Hard-validation subtype agreement in sampled validation failures.}
+\small
+\input{artifacts/reviewer_audit_v2/hard_validation_audit_summary.tex}
+\end{table}

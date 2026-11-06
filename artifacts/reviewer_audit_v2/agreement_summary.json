@@ -1,0 +1,36 @@
+{
+  "hard_validation_subtype_agreement": {
+    "cohen_kappa": 0.20762711864406783,
+    "percent": 0.35294117647058826,
+    "sample_count": 34
+  },
+  "reviewer_a_vs_original_label": {
+    "cohen_kappa": 0.2547801928419676,
+    "percent": 0.36666666666666664
+  },
+  "reviewer_a_vs_original_success": {
+    "cohen_kappa": 0.3833333333333333,
+    "percent": 0.6916666666666667
+  },
+  "reviewer_b_vs_original_label": {
+    "cohen_kappa": 0.3745863666446062,
+    "percent": 0.475
+  },
+  "reviewer_b_vs_original_success": {
+    "cohen_kappa": 0.3221320973348784,
+    "percent": 0.675
+  },
+  "reviewer_label_agreement": {
+    "cohen_kappa": 0.6234555795253971,
+    "percent": 0.7333333333333333
+  },
+  "reviewer_refusal_agreement": {
+    "cohen_kappa": 1.0,
+    "percent": 1.0
+  },
+  "reviewer_success_agreement": {
+    "cohen_kappa": 0.8666666666666667,
+    "percent": 0.9333333333333333
+  },
+  "sample_count": 120
+}

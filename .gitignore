@@ -1,0 +1,17 @@
+# Local model weights and tools
+.local_tools/
+# New local runs (raw traces are not released)
+runs/
+# LaTeX build outputs
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+# Python and OS files
+__pycache__/
+*.pyc
+.DS_Store

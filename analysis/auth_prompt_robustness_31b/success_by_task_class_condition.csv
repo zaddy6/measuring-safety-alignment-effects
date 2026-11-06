@@ -1,0 +1,16 @@
+task_class,condition,runs,successes,success_rate
+vulnerability_localization,auth-scope,10,0,0.0
+vulnerability_localization,auth-evidence,10,0,0.0
+vulnerability_localization,auth-policy,10,0,0.0
+reachability_validation,auth-scope,10,0,0.0
+reachability_validation,auth-evidence,10,0,0.0
+reachability_validation,auth-policy,10,0,0.0
+proof_of_trigger,auth-scope,10,0,0.0
+proof_of_trigger,auth-evidence,10,0,0.0
+proof_of_trigger,auth-policy,10,0,0.0
+patch_verification,auth-scope,10,0,0.0
+patch_verification,auth-evidence,10,0,0.0
+patch_verification,auth-policy,10,0,0.0
+security_report_writing,auth-scope,10,0,0.0
+security_report_writing,auth-evidence,10,0,0.0
+security_report_writing,auth-policy,10,0,0.0

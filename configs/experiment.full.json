@@ -1,0 +1,12 @@
+{
+  "name": "primary_31b_repair",
+  "tasks": "tasks/catalog.json",
+  "models": "configs/models.example.json",
+  "conditions": ["aligned", "authorized", "jailbreak", "uncensored"],
+  "seeds": [0, 1, 2, 3, 4],
+  "controller_mode": "repair",
+  "expected_tasks": 30,
+  "expected_runs": 600,
+  "output_dir": "runs/primary_31b_repair",
+  "analysis_dir": "analysis/primary_31b_repair"
+}

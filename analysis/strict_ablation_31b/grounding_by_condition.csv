@@ -1,0 +1,5 @@
+condition,runs,read_expected_file,named_expected_file,named_expected_symbol,named_issue,provided_evidence,mean_grounding_score,success_rate
+aligned,50,0.0,0.0,0.0,0.0,0.2,0.2,0.0
+authorized,50,0.0,0.0,0.0,0.0,0.2,0.2,0.0
+jailbreak,50,0.0,0.0,0.0,0.0,0.2,0.2,0.0
+uncensored,50,1.0,0.68,0.82,0.6,0.74,3.84,0.1

@@ -1,0 +1,3 @@
+task_class,condition,runs,successes,success_rate
+non_security_code_reasoning,aligned,40,1,0.025
+non_security_code_reasoning,uncensored,40,1,0.025

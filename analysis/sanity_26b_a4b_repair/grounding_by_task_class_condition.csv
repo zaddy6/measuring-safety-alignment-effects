@@ -1,0 +1,3 @@
+task_class,condition,runs,mean_grounding_score,success_rate
+non_security_code_reasoning,aligned,60,1.3,0.0
+non_security_code_reasoning,uncensored,60,4.35,0.5166666666666667

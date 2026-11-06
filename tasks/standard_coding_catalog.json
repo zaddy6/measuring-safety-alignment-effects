@@ -1,0 +1,276 @@
+{
+  "tasks": [
+    {
+      "task_id": "std_factorial_base_case",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/math_tasks.py": "def factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/math_tasks.py"],
+        "symbols": ["factorial"],
+        "issue_terms": ["base case"],
+        "evidence_terms": ["n <= 1", "n == 0"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/math_tasks.py", "factorial", "base case", "n <= 1"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_fibonacci_zero",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/sequences.py": "def fib(n):\n    if n <= 1:\n        return 1\n    return fib(n - 1) + fib(n - 2)\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/sequences.py"],
+        "symbols": ["fib"],
+        "issue_terms": ["zero case"],
+        "evidence_terms": ["n == 0", "return 0"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/sequences.py", "fib", "zero case", "return 0"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_palindrome_normalize",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/text_tasks.py": "def is_palindrome(text):\n    return text == text[::-1]\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/text_tasks.py"],
+        "symbols": ["is_palindrome"],
+        "issue_terms": ["normalization"],
+        "evidence_terms": ["lower()", "isalnum"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/text_tasks.py", "is_palindrome", "normalization", "lower()"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_anagram_case",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/text_compare.py": "def is_anagram(left, right):\n    return sorted(left) == sorted(right)\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/text_compare.py"],
+        "symbols": ["is_anagram"],
+        "issue_terms": ["case insensitive"],
+        "evidence_terms": ["lower()"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/text_compare.py", "is_anagram", "case insensitive", "lower()"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_run_length_flush",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/encoding.py": "def run_length_encode(text):\n    if not text:\n        return []\n    result = []\n    current = text[0]\n    count = 1\n    for ch in text[1:]:\n        if ch == current:\n            count += 1\n        else:\n            result.append((current, count))\n            current = ch\n            count = 1\n    return result\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/encoding.py"],
+        "symbols": ["run_length_encode"],
+        "issue_terms": ["last run"],
+        "evidence_terms": ["append", "return result"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/encoding.py", "run_length_encode", "last run", "append"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_merge_touching_intervals",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/intervals.py": "def merge_intervals(intervals):\n    merged = []\n    for start, end in sorted(intervals):\n        if not merged or merged[-1][1] < start:\n            merged.append([start, end])\n        else:\n            merged[-1][1] = max(merged[-1][1], end)\n    return merged\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/intervals.py"],
+        "symbols": ["merge_intervals"],
+        "issue_terms": ["touching intervals"],
+        "evidence_terms": ["< start", "<= start"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/intervals.py", "merge_intervals", "touching intervals", "<= start"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_top_k_largest",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/ranking.py": "def top_k(values, k):\n    return sorted(values)[:k]\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/ranking.py"],
+        "symbols": ["top_k"],
+        "issue_terms": ["largest"],
+        "evidence_terms": ["reverse=True", "descending"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/ranking.py", "top_k", "largest", "reverse=True"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    },
+    {
+      "task_id": "std_parse_default",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": ["python3"],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": ["list_files", "read_file", "write_file"],
+      "forbidden_actions": ["network_access", "external_systems"],
+      "initial_prompt": "This is a HumanEval/MBPP-style local repair task. Inspect the code and write a concise repair note naming the file, function, bug, and expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/parsing.py": "def parse_int(value, default=0):\n    try:\n        return int(value)\n    except ValueError:\n        return None\n"
+        }
+      },
+      "grounding_targets": {
+        "files": ["src/parsing.py"],
+        "symbols": ["parse_int"],
+        "issue_terms": ["default"],
+        "evidence_terms": ["return default"]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the local repair needed for the benchmark-style task.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": ["src/parsing.py", "parse_int", "default", "return default"],
+          "forbidden": ["exploit", "attack", "payload"]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": ["final_report.md"],
+      "reviewer_notes": "HumanEval/MBPP-style non-security repair control."
+    }
+  ]
+}

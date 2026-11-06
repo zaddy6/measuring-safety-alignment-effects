@@ -1,0 +1,23 @@
+{
+  "Reviewer A": {
+    "no_executable_check": 13,
+    "other": 2,
+    "output_misread": 3,
+    "redaction_or_payload_issue": 1,
+    "ungrounded_claim": 12,
+    "unsafe_action": 3
+  },
+  "Reviewer B": {
+    "check_failed": 4,
+    "no_executable_check": 13,
+    "other": 8,
+    "output_misread": 6,
+    "unsafe_action": 3
+  },
+  "sample_count": 34,
+  "subtype_agreement": {
+    "cohen_kappa": 0.20762711864406783,
+    "percent": 0.35294117647058826,
+    "sample_count": 34
+  }
+}

@@ -1,0 +1,138 @@
+\begin{figure}[t]
+\centering
+\definecolor{saInk}{RGB}{31,41,55}
+\definecolor{saMuted}{RGB}{92,105,120}
+\definecolor{saLine}{RGB}{204,213,224}
+\definecolor{saPanel}{RGB}{248,250,252}
+\definecolor{saBlue}{RGB}{37,99,235}
+\definecolor{saTeal}{RGB}{8,145,178}
+\definecolor{saGreen}{RGB}{22,163,74}
+\definecolor{saAmber}{RGB}{217,119,6}
+\definecolor{saRed}{RGB}{220,38,38}
+\definecolor{saViolet}{RGB}{124,58,237}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  x=1cm,
+  y=1cm,
+  font=\sffamily\scriptsize,
+  panel/.style={draw=saLine, line width=0.6pt, fill=saPanel,
+    rounded corners=6pt},
+  card/.style={draw=saLine, line width=0.55pt, fill=white,
+    rounded corners=4pt, drop shadow={shadow xshift=0.45pt,
+    shadow yshift=-0.45pt, opacity=0.16}, align=left, inner sep=4pt},
+  model/.style={card, text width=2.85cm, minimum width=3.10cm,
+    minimum height=0.64cm},
+  hstep/.style={card, align=center, text width=1.02cm, minimum width=1.26cm,
+    minimum height=0.76cm, inner sep=3.4pt},
+  outcome/.style={draw=saLine, line width=0.5pt, fill=white,
+    rounded corners=4pt, align=center, inner sep=3.3pt, minimum width=1.38cm,
+    minimum height=0.44cm},
+  result/.style={card, align=left, text width=2.72cm, minimum width=2.92cm,
+    minimum height=0.70cm},
+  tracebox/.style={draw=saLine, line width=0.55pt, fill=white,
+    rounded corners=4pt, align=left, inner xsep=7pt, inner ysep=5pt,
+    text width=3.55cm, minimum width=3.95cm, minimum height=0.80cm,
+    drop shadow={shadow xshift=0.45pt, shadow yshift=-0.45pt,
+    opacity=0.16}},
+  chip/.style={draw=saLine, line width=0.45pt, rounded corners=3pt,
+    align=center, inner sep=2.8pt, minimum width=1.18cm},
+  arrow/.style={-{Latex[length=2.3mm,width=1.7mm]}, line width=0.7pt,
+    draw=saMuted},
+  title/.style={text=saInk, font=\sffamily\bfseries\footnotesize},
+  label/.style={text=saMuted, font=\sffamily\tiny}
+]
+
+\path[use as bounding box] (0,0) rectangle (16.85,5.35);
+
+\draw[panel] (0.12,0.18) rectangle (4.02,5.12);
+\draw[panel] (4.38,0.18) rectangle (11.92,5.12);
+\draw[panel] (12.18,0.18) rectangle (16.72,5.12);
+
+\node[anchor=west, title] at (0.42,4.78) {Model suite};
+\node[anchor=west, label] at (0.42,4.52) {Four pairs, matched task--seed runs};
+
+\node[model, anchor=west] (aligned) at (0.62,4.00)
+  {\textbf{\textcolor{saBlue}{Aligned}} baselines\\[-1pt]
+   \tiny Gemma sizes, Qwen, Llama};
+\node[model, anchor=west] (auth) at (0.62,3.12)
+  {\textbf{\textcolor{saViolet}{Less-restricted}} pairs\\[-1pt]
+   \tiny uncensored or abliterated};
+\node[model, anchor=west] (jb) at (0.62,2.24)
+  {\textbf{\textcolor{saTeal}{Gemma 31B}} prompts\\[-1pt]
+   \tiny standard, authorized, \mbox{placeholder}};
+\node[model, anchor=west] (unc) at (0.62,1.36)
+  {\textbf{\textcolor{saAmber}{Non-security}} controls\\[-1pt]
+   \tiny sanity and coding checks};
+
+\draw[saBlue, line width=1.25pt] (0.45,4.25) -- (0.45,3.75);
+\draw[saViolet, line width=1.25pt] (0.45,3.37) -- (0.45,2.87);
+\draw[saTeal, line width=1.25pt] (0.45,2.49) -- (0.45,1.99);
+\draw[saAmber, line width=1.25pt] (0.45,1.61) -- (0.45,1.11);
+
+\node[chip, draw=saGreen!65!black, fill=saGreen!8, anchor=west,
+  minimum width=2.55cm] at (0.62,0.58) {\tiny paired task--seed runs};
+
+\node[anchor=west, title] at (4.70,4.78) {Shared security-agent harness};
+\node[anchor=west, label] at (4.70,4.52) {Contained execution with deterministic scoring};
+
+\node[hstep] (manifest) at (5.15,3.58) {\textbf{Task}\\[-1pt]\tiny manifest};
+\node[hstep] (sandbox) at (6.54,3.58) {\textbf{Local}\\[-1pt]\tiny sandbox};
+\node[hstep] (controller) at (7.93,3.58) {\textbf{Agent}\\[-1pt]\tiny controller};
+\node[hstep] (tools) at (9.32,3.58) {\textbf{Tool}\\[-1pt]\tiny execution};
+\node[hstep] (checker) at (10.71,3.58) {\textbf{Trace}\\[-1pt]\tiny checker};
+
+\draw[arrow] (5.78,3.58) -- (5.91,3.58);
+\draw[arrow] (7.17,3.58) -- (7.30,3.58);
+\draw[arrow] (8.56,3.58) -- (8.69,3.58);
+\draw[arrow] (9.95,3.58) -- (10.08,3.58);
+
+\node[result, text width=5.90cm, minimum width=6.20cm, minimum height=0.72cm]
+  at (8.12,2.30)
+  {\textbf{Fixed across comparable runs}\\[-1pt]
+   \tiny local fixtures, allowed tools, budgets, seeds, controller mode, traces,
+   redaction, and success predicates};
+
+\node[chip, draw=saBlue!65!black, fill=saBlue!8] at (5.82,1.22) {\tiny tools};
+\node[chip, draw=saTeal!65!black, fill=saTeal!8] at (7.34,1.22) {\tiny budgets};
+\node[chip, draw=saAmber!65!black, fill=saAmber!8] at (8.86,1.22) {\tiny checks};
+\node[chip, draw=saGreen!65!black, fill=saGreen!8] at (10.38,1.22) {\tiny redaction};
+
+\node[anchor=west, title] at (12.55,4.78) {Trace measurements};
+\node[anchor=west, label, text width=3.62cm, align=left] at (12.55,4.52)
+  {Behavioral outcomes, not self-reports};
+
+\node[outcome, draw=saGreen!65!black, fill=saGreen!8, minimum width=1.46cm]
+  at (13.42,3.80)
+  {\tiny success};
+\node[outcome, draw=saBlue!65!black, fill=saBlue!8, minimum width=1.46cm]
+  at (15.38,3.80)
+  {\tiny refusal};
+\node[outcome, draw=saAmber!65!black, fill=saAmber!8, minimum width=1.46cm]
+  at (13.42,3.18)
+  {\tiny stuck};
+\node[outcome, draw=saRed!65!black, fill=saRed!8, minimum width=1.46cm]
+  at (15.38,3.18)
+  {\tiny unsafe};
+
+\node[tracebox] at (14.45,2.14)
+  {\textbf{Observed pattern}\\[-1pt]
+   \tiny pair-dependent success\\[-1pt]
+   \tiny and grounding gaps};
+\node[tracebox] at (14.45,1.12)
+  {\textbf{Boundary}\\[-1pt]
+   \tiny hard proof and patch checks\\[-1pt]
+   \tiny remain unsolved};
+
+\draw[arrow] (4.02,2.68) -- (4.38,2.68);
+\draw[arrow] (11.92,2.68) -- (12.18,2.68);
+\node[label] at (4.20,2.95) {same tasks};
+\node[label] at (12.05,2.95) {score traces};
+
+\end{tikzpicture}%
+}
+\caption{Evaluation design. Four aligned--less-restricted model pairs, Gemma
+31B prompt variants, and non-security controls share one local security-agent
+harness; saved traces are scored for success, grounding, refusal, ordinary
+failure, and unsafe action.}
+\label{fig:evaluation-flow}
+\end{figure}

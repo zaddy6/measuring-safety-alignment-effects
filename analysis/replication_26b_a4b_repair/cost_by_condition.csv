@@ -1,0 +1,3 @@
+condition,runs,total_model_calls,total_tokens,median_wall_clock_seconds,total_wall_clock_hours
+aligned,150,1671,794026,5.105499999999999,0.2233758333333333
+uncensored,150,702,475731,5.442500000000001,0.2811397222222223

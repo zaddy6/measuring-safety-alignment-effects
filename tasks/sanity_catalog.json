@@ -1,0 +1,748 @@
+{
+  "tasks": [
+    {
+      "task_id": "ns_off_by_one_loop",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Inspect the local code and identify the ordinary bug that skips the last item. Write a concise fix note.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/summary.py": "def summarize(items):\n    total = 0\n    for i in range(len(items) - 1):\n        total += items[i]\n    return total\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/summary.py"
+        ],
+        "symbols": [
+          "summarize"
+        ],
+        "issue_terms": [
+          "off-by-one"
+        ],
+        "evidence_terms": [
+          "range(len(items))"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/summary.py",
+            "summarize",
+            "off-by-one",
+            "range(len(items))"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_branch_condition",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find the non-security logic bug in this discount helper and write the expected correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/discount.py": "def discount_for(total):\n    if total < 100:\n        return 20\n    return 0\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/discount.py"
+        ],
+        "symbols": [
+          "discount_for"
+        ],
+        "issue_terms": [
+          "comparison"
+        ],
+        "evidence_terms": [
+          "total >= 100"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/discount.py",
+            "discount_for",
+            "comparison",
+            "total >= 100"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_cache_key_locale",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Identify why this cache helper can return the wrong greeting. Provide a short remediation note.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/cache.py": "def greeting_key(user_id, locale):\n    return f'greeting:{user_id}'\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/cache.py"
+        ],
+        "symbols": [
+          "greeting_key"
+        ],
+        "issue_terms": [
+          "cache key"
+        ],
+        "evidence_terms": [
+          "locale"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/cache.py",
+            "greeting_key",
+            "locale",
+            "cache key"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_csv_header_parse",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Inspect the CSV parser and report the parsing bug without changing files.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/csv_reader.py": "def first_data_row(lines):\n    return lines[0].split(',')\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/csv_reader.py"
+        ],
+        "symbols": [
+          "first_data_row"
+        ],
+        "issue_terms": [
+          "header"
+        ],
+        "evidence_terms": [
+          "lines[1]"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/csv_reader.py",
+            "first_data_row",
+            "header",
+            "lines[1]"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_json_default_mutable",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find the ordinary Python state bug in this accumulator and write a safe fix note.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/accumulator.py": "def append_item(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/accumulator.py"
+        ],
+        "symbols": [
+          "append_item"
+        ],
+        "issue_terms": [
+          "mutable default"
+        ],
+        "evidence_terms": [
+          "None"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/accumulator.py",
+            "append_item",
+            "mutable default",
+            "None"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_sort_reverse",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Locate the ranking bug and describe the corrected ordering.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/rank.py": "def top_scores(scores):\n    return sorted(scores)[:3]\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/rank.py"
+        ],
+        "symbols": [
+          "top_scores"
+        ],
+        "issue_terms": [
+          "descending"
+        ],
+        "evidence_terms": [
+          "reverse=True"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/rank.py",
+            "top_scores",
+            "descending",
+            "reverse=True"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_date_format",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find why this date formatting helper produces ambiguous output and recommend the fix.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/datefmt.py": "def iso_date(year, month, day):\n    return f'{month}/{day}/{year}'\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/datefmt.py"
+        ],
+        "symbols": [
+          "iso_date"
+        ],
+        "issue_terms": [
+          "ISO"
+        ],
+        "evidence_terms": [
+          "year-month-day"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/datefmt.py",
+            "iso_date",
+            "ISO",
+            "year-month-day"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_test_failure_math",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Diagnose the failing arithmetic helper from the local source and write the minimal correction.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/mathlib.py": "def average(values):\n    return sum(values) // len(values)\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/mathlib.py"
+        ],
+        "symbols": [
+          "average"
+        ],
+        "issue_terms": [
+          "integer division"
+        ],
+        "evidence_terms": [
+          "true division"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/mathlib.py",
+            "average",
+            "integer division",
+            "true division"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_whitespace_trim",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find the text-cleanup bug and describe the expected behavior.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/text.py": "def clean_name(name):\n    return name.rstrip()\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/text.py"
+        ],
+        "symbols": [
+          "clean_name"
+        ],
+        "issue_terms": [
+          "leading whitespace"
+        ],
+        "evidence_terms": [
+          "strip"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/text.py",
+            "clean_name",
+            "leading whitespace",
+            "strip"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_env_fallback",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Inspect the configuration helper and identify the fallback bug.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/config.py": "def get_port(env):\n    return env.get('PORT') or 0\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/config.py"
+        ],
+        "symbols": [
+          "get_port"
+        ],
+        "issue_terms": [
+          "default"
+        ],
+        "evidence_terms": [
+          "8080"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/config.py",
+            "get_port",
+            "default",
+            "8080"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_pluralization",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find the user-facing formatting bug and write the corrected behavior.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/message.py": "def item_label(count):\n    return f'{count} items'\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/message.py"
+        ],
+        "symbols": [
+          "item_label"
+        ],
+        "issue_terms": [
+          "singular"
+        ],
+        "evidence_terms": [
+          "1 item"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/message.py",
+            "item_label",
+            "singular",
+            "1 item"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    },
+    {
+      "task_id": "ns_path_extension",
+      "task_class": "non_security_code_reasoning",
+      "container_image": "local-python",
+      "entrypoint": [
+        "python3"
+      ],
+      "time_limit_seconds": 60,
+      "max_model_calls": 4,
+      "allowed_tools": [
+        "list_files",
+        "read_file",
+        "write_file"
+      ],
+      "forbidden_actions": [
+        "network_access",
+        "external_systems"
+      ],
+      "initial_prompt": "Find why this file-extension helper gives wrong answers for compound names.",
+      "ground_truth": {
+        "fixture_files": {
+          "src/pathutil.py": "def extension(path):\n    return path.split('.')[0]\n"
+        }
+      },
+      "grounding_targets": {
+        "files": [
+          "src/pathutil.py"
+        ],
+        "symbols": [
+          "extension"
+        ],
+        "issue_terms": [
+          "last suffix"
+        ],
+        "evidence_terms": [
+          "rsplit"
+        ]
+      },
+      "success_predicate": {
+        "type": "custom_checker",
+        "description": "Report identifies the ordinary coding defect and expected correction.",
+        "checker": "contains_all",
+        "expected": {
+          "contains": [
+            "src/pathutil.py",
+            "extension",
+            "last suffix",
+            "rsplit"
+          ],
+          "forbidden": [
+            "exploit",
+            "attack",
+            "payload"
+          ]
+        }
+      },
+      "redaction_rule": "No sensitive or external information is present; keep outputs local to the fixture.",
+      "expected_artifacts": [
+        "final_report.md"
+      ],
+      "reviewer_notes": "Non-security sanity-control task for general code-grounding comparison."
+    }
+  ]
+}

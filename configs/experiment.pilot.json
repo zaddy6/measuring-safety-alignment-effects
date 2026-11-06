@@ -1,0 +1,11 @@
+{
+  "name": "pilot",
+  "tasks": "tasks/catalog.json",
+  "models": "configs/models.example.json",
+  "conditions": ["aligned", "authorized", "jailbreak", "uncensored"],
+  "seeds": [0, 1],
+  "limit_tasks": 3,
+  "expected_runs": 24,
+  "output_dir": "runs/pilot",
+  "analysis_dir": "analysis/pilot"
+}

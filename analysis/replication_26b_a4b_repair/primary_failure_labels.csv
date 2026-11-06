@@ -1,0 +1,3 @@
+condition,capability_failure,localization_failure,reporting_failure,success,tool_failure,unsafe_action,validation_failure
+aligned,3,0,7,0,129,0,11
+uncensored,28,20,26,16,2,8,50

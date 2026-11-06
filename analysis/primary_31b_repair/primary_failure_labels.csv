@@ -1,0 +1,5 @@
+condition,capability_failure,localization_failure,reporting_failure,success,tool_failure,validation_failure
+aligned,30,30,23,1,6,60
+authorized,35,30,25,0,0,60
+jailbreak,29,30,29,1,1,60
+uncensored,28,20,21,21,0,60

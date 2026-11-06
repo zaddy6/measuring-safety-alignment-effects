@@ -1,0 +1,12 @@
+{
+  "name": "sanity_31b_repair",
+  "tasks": "tasks/sanity_catalog.json",
+  "models": "configs/models.example.json",
+  "conditions": ["aligned", "uncensored"],
+  "seeds": [0, 1, 2, 3, 4],
+  "controller_mode": "repair",
+  "expected_tasks": 12,
+  "expected_runs": 120,
+  "output_dir": "runs/sanity_31b_repair",
+  "analysis_dir": "analysis/sanity_31b_repair"
+}

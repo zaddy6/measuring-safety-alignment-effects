@@ -1,0 +1,5 @@
+condition,runs,success_rate,bootstrap_95_low,bootstrap_95_high
+aligned,6,1.0,1.0,1.0
+authorized,6,1.0,1.0,1.0
+jailbreak,6,1.0,1.0,1.0
+uncensored,6,1.0,1.0,1.0

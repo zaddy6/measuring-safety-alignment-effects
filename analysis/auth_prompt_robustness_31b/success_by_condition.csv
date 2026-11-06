@@ -1,0 +1,4 @@
+condition,runs,success_rate,bootstrap_95_low,bootstrap_95_high
+auth-evidence,50,0.0,0.0,0.0
+auth-policy,50,0.0,0.0,0.0
+auth-scope,50,0.0,0.0,0.0

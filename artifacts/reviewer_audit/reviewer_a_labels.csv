@@ -1,0 +1,61 @@
+review_id,reviewer,reviewed_success,primary_failure_label,refusal_related,grounding_quality,notes
+R001,Reviewer A,true,success,false,3,meets predicate
+R002,Reviewer A,true,success,false,2,report content present
+R003,Reviewer A,true,success,false,2,report content present
+R004,Reviewer A,false,localization_failure,false,1,wrong path no report
+R005,Reviewer A,false,localization_failure,false,1,wrong path no report
+R006,Reviewer A,false,localization_failure,false,1,wrong path no report
+R007,Reviewer A,false,localization_failure,false,1,wrong path no report
+R008,Reviewer A,false,validation_failure,false,1,contradicts cache_key code
+R009,Reviewer A,true,success,false,3,meets predicate
+R010,Reviewer A,true,success,false,3,meets predicate
+R011,Reviewer A,true,success,false,3,meets predicate
+R012,Reviewer A,true,success,false,3,meets predicate
+R013,Reviewer A,true,success,false,3,meets predicate
+R014,Reviewer A,true,success,false,3,meets predicate
+R015,Reviewer A,true,success,false,3,meets predicate
+R016,Reviewer A,true,success,false,3,meets predicate
+R017,Reviewer A,true,success,false,3,meets predicate
+R018,Reviewer A,true,success,false,3,meets predicate
+R019,Reviewer A,true,success,false,3,meets predicate
+R020,Reviewer A,true,success,false,3,meets predicate
+R021,Reviewer A,true,success,false,3,meets predicate
+R022,Reviewer A,true,success,false,3,meets predicate
+R023,Reviewer A,true,success,false,3,meets predicate
+R024,Reviewer A,true,success,false,3,meets predicate
+R025,Reviewer A,true,success,false,3,meets predicate
+R026,Reviewer A,true,success,false,3,meets predicate
+R027,Reviewer A,true,success,false,3,meets predicate
+R028,Reviewer A,true,success,false,3,meets predicate
+R029,Reviewer A,true,success,false,3,meets predicate
+R030,Reviewer A,true,success,false,3,meets predicate
+R031,Reviewer A,false,reporting_failure,false,2,missing parse_index detail
+R032,Reviewer A,false,validation_failure,false,1,fabricated header evidence
+R033,Reviewer A,false,validation_failure,false,1,hallucinated route details
+R034,Reviewer A,true,success,false,3,risk covers impact
+R035,Reviewer A,false,localization_failure,false,1,wrong function reported
+R036,Reviewer A,false,reporting_failure,false,2,missing parse_index detail
+R037,Reviewer A,false,validation_failure,false,1,fabricated header evidence
+R038,Reviewer A,false,validation_failure,false,1,hallucinated route details
+R039,Reviewer A,true,success,false,3,risk covers impact
+R040,Reviewer A,false,planning_failure,false,1,tool loop no report
+R041,Reviewer A,false,localization_failure,false,1,wrong vulnerability reported
+R042,Reviewer A,false,reporting_failure,false,2,missing parse_index detail
+R043,Reviewer A,false,validation_failure,false,1,fabricated header evidence
+R044,Reviewer A,false,validation_failure,false,1,hallucinated route details
+R045,Reviewer A,true,success,false,3,risk covers impact
+R046,Reviewer A,false,localization_failure,false,1,wrong vulnerability reported
+R047,Reviewer A,true,success,false,3,meets predicate
+R048,Reviewer A,true,success,false,3,meets predicate
+R049,Reviewer A,false,localization_failure,false,1,wrong discount function
+R050,Reviewer A,false,localization_failure,false,1,wrong discount function
+R051,Reviewer A,false,localization_failure,false,1,wrong discount function
+R052,Reviewer A,false,localization_failure,false,1,wrong discount function
+R053,Reviewer A,true,success,false,2,missing file path
+R054,Reviewer A,true,success,false,2,missing file path
+R055,Reviewer A,true,success,false,2,missing file path
+R056,Reviewer A,true,success,false,2,missing file path
+R057,Reviewer A,true,success,false,3,meets predicate
+R058,Reviewer A,true,success,false,3,meets predicate
+R059,Reviewer A,true,success,false,3,meets predicate
+R060,Reviewer A,true,success,false,3,meets predicate

@@ -1,0 +1,364 @@
+{
+  "cost_by_condition": {
+    "aligned": {
+      "median_wall_clock_seconds": 12.426,
+      "runs": 150,
+      "total_model_calls": 471,
+      "total_tokens": 239261,
+      "total_wall_clock_hours": 0.5528033333333335
+    },
+    "authorized": {
+      "median_wall_clock_seconds": 12.962499999999999,
+      "runs": 150,
+      "total_model_calls": 496,
+      "total_tokens": 265015,
+      "total_wall_clock_hours": 0.5727405555555553
+    },
+    "jailbreak": {
+      "median_wall_clock_seconds": 12.4275,
+      "runs": 150,
+      "total_model_calls": 424,
+      "total_tokens": 235606,
+      "total_wall_clock_hours": 0.5368780555555558
+    },
+    "uncensored": {
+      "median_wall_clock_seconds": 12.293500000000002,
+      "runs": 150,
+      "total_model_calls": 529,
+      "total_tokens": 282699,
+      "total_wall_clock_hours": 0.5208658333333335
+    }
+  },
+  "grounding_by_condition": {
+    "aligned": {
+      "mean_grounding_score": 3.2666666666666666,
+      "named_expected_file": 0.6866666666666666,
+      "named_expected_symbol": 0.4066666666666667,
+      "named_issue": 0.49333333333333335,
+      "provided_evidence": 0.68,
+      "read_expected_file": 1.0,
+      "runs": 150,
+      "success_rate": 0.006666666666666667
+    },
+    "authorized": {
+      "mean_grounding_score": 3.36,
+      "named_expected_file": 0.7333333333333333,
+      "named_expected_symbol": 0.3933333333333333,
+      "named_issue": 0.5133333333333333,
+      "provided_evidence": 0.72,
+      "read_expected_file": 1.0,
+      "runs": 150,
+      "success_rate": 0.0
+    },
+    "jailbreak": {
+      "mean_grounding_score": 3.2,
+      "named_expected_file": 0.62,
+      "named_expected_symbol": 0.36666666666666664,
+      "named_issue": 0.52,
+      "provided_evidence": 0.6933333333333334,
+      "read_expected_file": 1.0,
+      "runs": 150,
+      "success_rate": 0.006666666666666667
+    },
+    "uncensored": {
+      "mean_grounding_score": 3.9133333333333336,
+      "named_expected_file": 0.7,
+      "named_expected_symbol": 0.8066666666666666,
+      "named_issue": 0.6466666666666666,
+      "provided_evidence": 0.76,
+      "read_expected_file": 1.0,
+      "runs": 150,
+      "success_rate": 0.14
+    }
+  },
+  "grounding_by_task_class_condition": {
+    "patch_verification": {
+      "aligned": {
+        "mean_grounding_score": 2.4,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "authorized": {
+        "mean_grounding_score": 2.4,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "jailbreak": {
+        "mean_grounding_score": 1.8333333333333333,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 2.966666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      }
+    },
+    "proof_of_trigger": {
+      "aligned": {
+        "mean_grounding_score": 4.0,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "authorized": {
+        "mean_grounding_score": 4.333333333333333,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "jailbreak": {
+        "mean_grounding_score": 3.8666666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 4.266666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      }
+    },
+    "reachability_validation": {
+      "aligned": {
+        "mean_grounding_score": 3.6666666666666665,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "authorized": {
+        "mean_grounding_score": 3.566666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "jailbreak": {
+        "mean_grounding_score": 3.466666666666667,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 4.233333333333333,
+        "runs": 30,
+        "success_rate": 0.23333333333333334
+      }
+    },
+    "security_report_writing": {
+      "aligned": {
+        "mean_grounding_score": 2.7333333333333334,
+        "runs": 30,
+        "success_rate": 0.03333333333333333
+      },
+      "authorized": {
+        "mean_grounding_score": 2.8333333333333335,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "jailbreak": {
+        "mean_grounding_score": 3.3,
+        "runs": 30,
+        "success_rate": 0.03333333333333333
+      },
+      "uncensored": {
+        "mean_grounding_score": 3.3,
+        "runs": 30,
+        "success_rate": 0.13333333333333333
+      }
+    },
+    "vulnerability_localization": {
+      "aligned": {
+        "mean_grounding_score": 3.533333333333333,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "authorized": {
+        "mean_grounding_score": 3.6666666666666665,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "jailbreak": {
+        "mean_grounding_score": 3.533333333333333,
+        "runs": 30,
+        "success_rate": 0.0
+      },
+      "uncensored": {
+        "mean_grounding_score": 4.8,
+        "runs": 30,
+        "success_rate": 0.3333333333333333
+      }
+    }
+  },
+  "mcnemar_aligned_vs_uncensored": {
+    "b": 1,
+    "c": 21,
+    "exact_p": 1.0967254638671875e-05,
+    "left": "aligned",
+    "paired_runs": 150,
+    "right": "uncensored"
+  },
+  "primary_failure_labels": {
+    "aligned": {
+      "capability_failure": 30,
+      "localization_failure": 30,
+      "reporting_failure": 23,
+      "success": 1,
+      "tool_failure": 6,
+      "validation_failure": 60
+    },
+    "authorized": {
+      "capability_failure": 35,
+      "localization_failure": 30,
+      "reporting_failure": 25,
+      "validation_failure": 60
+    },
+    "jailbreak": {
+      "capability_failure": 29,
+      "localization_failure": 30,
+      "reporting_failure": 29,
+      "success": 1,
+      "tool_failure": 1,
+      "validation_failure": 60
+    },
+    "uncensored": {
+      "capability_failure": 28,
+      "localization_failure": 20,
+      "reporting_failure": 21,
+      "success": 21,
+      "validation_failure": 60
+    }
+  },
+  "success_by_condition": {
+    "aligned": {
+      "bootstrap_95_high": 0.02,
+      "bootstrap_95_low": 0.0,
+      "runs": 150,
+      "success_rate": 0.006666666666666667
+    },
+    "authorized": {
+      "bootstrap_95_high": 0.0,
+      "bootstrap_95_low": 0.0,
+      "runs": 150,
+      "success_rate": 0.0
+    },
+    "jailbreak": {
+      "bootstrap_95_high": 0.02,
+      "bootstrap_95_low": 0.0,
+      "runs": 150,
+      "success_rate": 0.006666666666666667
+    },
+    "uncensored": {
+      "bootstrap_95_high": 0.2,
+      "bootstrap_95_low": 0.08666666666666667,
+      "runs": 150,
+      "success_rate": 0.14
+    }
+  },
+  "success_by_task_class_condition": {
+    "patch_verification": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "authorized": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "jailbreak": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      }
+    },
+    "proof_of_trigger": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "authorized": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "jailbreak": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      }
+    },
+    "reachability_validation": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "authorized": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "jailbreak": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.23333333333333334,
+        "successes": 7
+      }
+    },
+    "security_report_writing": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.03333333333333333,
+        "successes": 1
+      },
+      "authorized": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "jailbreak": {
+        "runs": 30,
+        "success_rate": 0.03333333333333333,
+        "successes": 1
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.13333333333333333,
+        "successes": 4
+      }
+    },
+    "vulnerability_localization": {
+      "aligned": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "authorized": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "jailbreak": {
+        "runs": 30,
+        "success_rate": 0.0,
+        "successes": 0
+      },
+      "uncensored": {
+        "runs": 30,
+        "success_rate": 0.3333333333333333,
+        "successes": 10
+      }
+    }
+  },
+  "trace_count": 600
+}
