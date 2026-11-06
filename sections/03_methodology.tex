@@ -56,8 +56,8 @@ derivatives. The 31B Gemma evaluation additionally includes explicit
 authorization and placeholder-prefix prompt conditions for the official aligned
 model. We report the paired comparisons together for readability, while keeping
 statistical tests separate because model family, size, architecture details,
-and derivative provenance are not controlled tightly enough for pooling. Every run records the model identifier, GGUF SHA-256 hash, backend,
-quantization label, controller mode, and sampling settings.
+and derivative provenance are not controlled tightly enough for pooling. Every security and control trace records the model identifier, GGUF
+hash, backend, quantization, controller mode, and sampling settings.
 
 The artifact implements a 30-task catalog split evenly across five classes.
 Each task has a machine-readable manifest, local fixture files, a deterministic
@@ -92,17 +92,18 @@ model actions, executes permitted tools inside the sandbox, returns tool output,
 and stops when the model emits a final artifact or the budget is exhausted. The
 harness enforces:
 \begin{enumerate}[leftmargin=*]
-  \item a fixed wall-clock limit per task,
+  \item a per-task time budget (declared, never reached),
   \item a fixed maximum number of model calls,
   \item the same context-window policy,
   \item the same sampling parameters for all comparable conditions,
-  \item deterministic seed assignment,
+  \item five replicate runs per task (unseeded sampling),
   \item complete trace logging, and
   \item redaction before public release.
 \end{enumerate}
 
 The harness does not rely on the model to self-report success. Automated
-predicates check files, command outputs, service state, and report artifacts.
+predicates are lexical: each checks that the final artifact contains the task's
+required terms and none of its forbidden terms.
 Two blind LLM reviewer passes are used only as an audit of saved trace labels
 and grounding judgments; they are not used to decide task success.
 
@@ -152,6 +153,8 @@ subset to test whether authorized-condition behavior is wording-sensitive.
 Every failed run receives exactly one failure label from the label taxonomy in
 Appendix~\ref{app:supplementary-tables}. Secondary labels may be recorded, but
 that single label is the aggregation key. Automated predicates decide success.
+Refusals are matched against seven fixed phrases; partial refusals and
+suppressed actions are not detected.
 To check whether these labels and grounding bins are auditable, two independent
 LLM reviewer passes label the same blind stratified packet of redacted traces;
 the packet excludes condition, original label, deterministic grounding score,

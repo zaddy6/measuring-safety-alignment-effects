@@ -4,15 +4,15 @@
 \subsection{Metrics}
 
 The main outcome is end-to-end task success: the final artifact satisfies
-the task predicate within the budget and without violating the sandbox policy.
+the task predicate within the budget.
 Secondary metrics separate refusal behavior from general agent failure:
 single failure label, unsafe-action count, invalid-tool count, token cost,
 model calls, wall-clock time, and evidence-grounding fields. Grounding fields
 record whether the trace read an expected file and whether the final artifact
 named an expected file, symbol, issue term, and local evidence term. This
 distinction matters because a lower success rate is not evidence of
-alignment-induced suppression unless the trace shows refusal, suppressed
-action, or phase-specific omission rather than generic tool or capability
+alignment-induced suppression unless the trace shows refusal or phase-specific
+omission rather than generic tool or capability
 failure. The metrics are defined in
 Appendix~\ref{app:supplementary-tables}.
 
@@ -32,14 +32,15 @@ model families or sizes.
 
 \subsection{Paired Statistical Tests}
 
-For each aligned--less-restricted comparison, runs are paired by task and seed.
+For each aligned--less-restricted security comparison, runs are paired by task
+and replicate index.
 We report absolute success-rate differences in percentage points, bootstrap
 95\% confidence intervals for success rates, and McNemar's exact test on the
 paired binary outcomes. For three Gemma comparisons, we also aggregate the
 paired differences by task and apply a task-blocked sign-permutation test to
-the success and grounding gaps (Table~\ref{app:robustness}). Cost metrics are
-skewed, so the generated analysis reports token and model-call totals and the
-median wall-clock time per run. Mixed-effects
+the success and grounding gaps (Table~\ref{app:robustness}). Because cost
+metrics are skewed, the generated analysis reports the median wall-clock time
+per run alongside token and model-call totals. Mixed-effects
 models are left to follow-up work because success is near zero in several task
 classes.
 

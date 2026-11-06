@@ -181,6 +181,11 @@ def sign_permutation_p(task_diffs: List[float], iterations: int = 100000, seed: 
     return observed, p, n
 
 
+def format_p(p: float) -> str:
+    # Monte Carlo sign-permutation p-values of zero mean none of the 100,000 draws matched.
+    return "$<10^{-5}$" if p == 0 else f"{p:.4f}"
+
+
 def robustness_table(items: List[Tuple[str, Path]], out_path: Path) -> None:
     lines = [
         "\\begin{tabular}{@{}lrrrr@{}}",
@@ -197,7 +202,7 @@ def robustness_table(items: List[Tuple[str, Path]], out_path: Path) -> None:
         grounding_values = {row["run_id"]: float(row["grounding_score"]) for row in grounding_rows}
         success_obs, success_p, tasks = sign_permutation_p(paired_task_diffs(run_rows, success_values))
         _ground_obs, grounding_p, _ = sign_permutation_p(paired_task_diffs(run_rows, grounding_values))
-        lines.append(f"{name} & {tasks} & {success_obs:.3f} & {success_p:.4f} & {grounding_p:.4f} \\\\")
+        lines.append(f"{name} & {tasks} & {success_obs:.3f} & {format_p(success_p)} & {format_p(grounding_p)} \\\\")
     lines.extend(["\\bottomrule", "\\end{tabular}", ""])
     out_path.write_text("\n".join(lines), encoding="utf-8")
 

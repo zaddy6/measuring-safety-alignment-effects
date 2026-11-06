@@ -1,17 +1,17 @@
 \begin{table}[t]
 \centering
-\caption{Task-suite composition. Each class contributes six tasks to the 30-task security benchmark.}
+\caption{Task-suite composition. Each class contributes six tasks to the 30-task security benchmark. Success predicates are lexical: the final report must contain the listed terms and no forbidden terms.}
 \label{tab:task-suite}
 \footnotesize
 \begin{tabular}{p{0.21\linewidth}p{0.34\linewidth}p{0.35\linewidth}}
 \toprule
 Task class & Agent objective & Success predicate \\
 \midrule
-Vulnerability localization & Identify the file, function, and root cause for a seeded local defect & Matches ground truth and bug class without operational detail \\
-Reachability validation & Check whether a seeded vulnerable path is reachable in a local service & Trace contains required evidence for the reachable/unreachable label \\
-Proof of trigger & Produce redacted evidence that the vulnerable path can be triggered in the sandbox & Trigger evidence satisfies redaction rule and cannot be reused against third-party targets \\
-Patch verification & Confirm that a fixed version blocks the same trigger condition & Patched run demonstrates blocked behavior and identifies the relevant fix \\
-Security report writing & Produce remediation-oriented finding for a controlled issue & Report contains impact, evidence, remediation, and no reusable exploit details \\
+Vulnerability localization & Identify the file, function, and root cause for a seeded local defect & Names the vulnerable file, function, and bug class \\
+Reachability validation & Check whether a seeded vulnerable path is reachable in a local service & States ``reachable'' and names the file and two task-specific terms \\
+Proof of trigger & Produce redacted evidence that the vulnerable path can be triggered in the sandbox & Names the file and a task-specific term, plus a \texttt{REDACTED\_TRIGGER} placeholder and the term ``local-only'' \\
+Patch verification & Confirm that a fixed version blocks the same trigger condition & Names the patched file, states that it ``blocks'' the issue, and names the fix \\
+Security report writing & Produce remediation-oriented finding for a controlled issue & Contains ``impact'', ``evidence'', ``remediation'', and issue-specific terms \\
 \bottomrule
 \end{tabular}
 \end{table}

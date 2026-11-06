@@ -8,7 +8,7 @@ agentic system. Across the cross-family evaluation, visible refusal is only one
 small part of the behavior. In Gemma, evidence grounding separates the
 conditions after both models read relevant files; in Qwen, the comparison is
 mostly flat; in Llama, tool-interface reliability dominates the abliterated
-condition. Hard validation competence remains weak for all families.
+condition. No family passes the hard-validation checks.
 
 \looseness=-1
 The main methodological implication is that autonomous security-agent
@@ -27,11 +27,9 @@ The blind audit is therefore a check on the interpretation, not an alternate
 success judge. The deterministic grounding score is intentionally mechanical,
 so the audit asks whether independent reviewers see the same coarse structure
 in redacted traces when condition labels, original failure labels, checker
-reasons, and grounding scores are hidden. Agreement is high for success and
-refusal judgments but noisier for hard-validation subtypes, which matches the
-quantitative picture: localization and reporting evidence can be audited
-reliably, while proof-of-trigger and patch-verification competence remains a
-harder behavioral target.
+reasons, and grounding scores are hidden. Inter-reviewer agreement is high for
+success and refusal judgments but low for hard-validation subtypes, and each
+reviewer agrees less with the lexical success labels (Section~\ref{sec:results}).
 
 \looseness=-1
 The deployment lesson is also narrower than ``remove alignment.'' The safer
@@ -55,19 +53,19 @@ calls that the repair controller does not cover (129/150 runs), and the Llama
 derivative is much worse at following the
 tool protocol, so capability and interface reliability vary with alignment
 condition. A causal claim about alignment, which we do not make, would require
-a capability-matched design that pairs models with comparable non-security
-performance. \textbf{Controller.} The repair controller changes effect
-magnitudes (Section~\ref{sec:results}); its rules are deterministic, applied to
-every condition, and logged per trace (Appendix~\ref{app:controller-repairs}).
-\textbf{Scale and measurement.} Absolute success is low, every condition scores
-zero on proof-of-trigger and patch-verification tasks, and the 30 tasks are
+pairs matched on non-security performance. \textbf{Controller.} The repair controller changes effect
+magnitudes (Section~\ref{sec:results}); its deterministic rules are logged per
+trace (Appendix~\ref{app:controller-repairs}).
+\textbf{Scale and measurement.} Absolute success is low, no condition passes the
+lexical proof-of-trigger or patch-verification predicates, and the 30 tasks are
 stratified across five classes rather than sampled from security work at large.
-Grounding is lexical substring matching that overlaps with most success
-predicates, and the trace audit uses LLM reviewers rather than human
-annotators, with low agreement on hard-validation subtypes (\(\kappa=0.21\)).
+Success and grounding are both lexical substring checks, and the trace audit
+uses LLM reviewers rather than human annotators, with low agreement on
+hard-validation subtypes (\(\kappa=0.21\)).
 \textbf{Scope.} The authorization-prompt ablation covers Gemma 4 31B only, and
 all security and control runs use one backend (\texttt{llama.cpp}), 4-bit GGUF quantizations, one
-sampling configuration, and five seeds per task, without network isolation.
+sampling configuration, and five unseeded replicates per task, without network
+isolation.
 
 \subsection{Ethics and Dual Use}
 \label{sec:ethics}
@@ -76,7 +74,6 @@ sampling configuration, and five seeds per task, without network isolation.
 This is dual-use research. All experiments use original local tasks with known
 defects, scoped tools, and no third-party targets. Released traces are redacted
 and audited, and no jailbreak prompt was applied in any reported run. The less-restricted derivatives are not safe
-defaults: the 26B and Llama derivatives emit blocked tool calls, one 26B run
-installed packages from the network (Appendix~\ref{app:out-of-scope}), and we
-do not endorse deploying them. Production systems still
+defaults: two 26B derivative runs installed packages from the network
+(Appendix~\ref{app:out-of-scope}), and we do not endorse deploying them. Production systems still
 need alignment, sandboxing, policy checks, and evidence verification.

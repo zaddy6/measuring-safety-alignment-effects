@@ -17,7 +17,7 @@ STUDIES = [
     ("Llama 3.1 8B", "llama31_8b_repair", "models.llama31_8b.json"),
 ]
 CONDITION_ORDER = ["aligned", "authorized", "jailbreak", "uncensored"]
-CONDITION_NAMES = {"aligned": "Aligned", "authorized": "Authorized", "jailbreak": "Placeholder", "uncensored": "Less-restricted"}
+CONDITION_NAMES = {"aligned": "Aligned", "authorized": "Authorized", "jailbreak": "Placeholder", "uncensored": "Uncensored"}
 RULES = ["repeat_list_files", "malformed_write_file_json", "filename_keyed_artifact"]
 
 

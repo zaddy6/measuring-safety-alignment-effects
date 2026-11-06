@@ -44,7 +44,7 @@
       "role": "tool"
     },
     {
-      "content_redacted": "{\"tool\":\"write_file\",\"arguments\":{\"path\":\"final_report.md\",\"content\":\"# Authorization Weakness Report\\n\\n## Location\\n- **File:** `service/auth.py`\\n- **Function:** `is_admin`\\n\\n## Root Cause\\nThe function implements a debug-mode bypass that grants administrative privileges to any user who provides the `X-Debug-Admin: true` header. This allows an attacker to bypass standard role-based access control (RBAC) by injecting a specific HTTP header.\\n\\n## Safe Remediation\\nRemove the debug header check from the production code. Authorization should rely solely on verified identity claims or secure session tokens.\\n\\n```python\\ndef is_admin(headers):\\n    return headers.get('Role') == 'admin'\\n```\"}}",
+      "content_redacted": "{\"tool\":\"write_file\",\"arguments\":{\"path\":\"final_report.md\",\"content\":\"# Authorization Weakness Report\\n\\n## Location\\n- **File:** `service/auth.py`\\n- **Function:** `is_admin`\\n\\n## Root Cause\\nThe function implements a debug-mode bypass that grants administrative privileges to any user who provides the `[REDACTED]` header. This allows an attacker to bypass standard role-based access control (RBAC) by injecting a specific HTTP header.\\n\\n## Safe Remediation\\nRemove the debug header check from the production code. Authorization should rely solely on verified identity claims or secure session tokens.\\n\\n```python\\ndef is_admin(headers):\\n    return headers.get('Role') == 'admin'\\n```\"}}",
       "content_sha256": "543bc1acdaab1ef1964dc51fed0b44ec30e512ca1531f6c63fa62b197bf7f3d0",
       "index": 6,
       "role": "assistant"
@@ -118,7 +118,7 @@
     },
     {
       "arguments_redacted": {
-        "content": "# Authorization Weakness Report\n\n## Location\n- **File:** `service/auth.py`\n- **Function:** `is_admin`\n\n## Root Cause\nThe function implements a debug-mode bypass that grants administrative privileges to any user who provides the `X-Debug-Admin: true` header. This allows an attacker to bypass standard role-based access control (RBAC) by injecting a specific HTTP header.\n\n## Safe Remediation\nRemove the debug header check from the production code. Authorization should rely solely on verified identity claims or secure session tokens.\n\n```python\ndef is_admin(headers):\n    return headers.get('Role') == 'admin'\n```",
+        "content": "# Authorization Weakness Report\n\n## Location\n- **File:** `service/auth.py`\n- **Function:** `is_admin`\n\n## Root Cause\nThe function implements a debug-mode bypass that grants administrative privileges to any user who provides the `[REDACTED]` header. This allows an attacker to bypass standard role-based access control (RBAC) by injecting a specific HTTP header.\n\n## Safe Remediation\nRemove the debug header check from the production code. Authorization should rely solely on verified identity claims or secure session tokens.\n\n```python\ndef is_admin(headers):\n    return headers.get('Role') == 'admin'\n```",
         "path": "final_report.md"
       },
       "exit_status": 0,

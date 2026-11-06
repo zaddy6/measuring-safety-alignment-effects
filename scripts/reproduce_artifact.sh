@@ -40,6 +40,9 @@ python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/primary_3
 python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/replication_26b_a4b_repair --tasks tasks/catalog.json --out artifacts/redaction_audits/replication_26b_a4b_repair.json
 python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/qwen25_coder_7b_repair --tasks tasks/catalog.json --out artifacts/redaction_audits/qwen25_coder_7b_repair.json
 python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/llama31_8b_repair --tasks tasks/catalog.json --out artifacts/redaction_audits/llama31_8b_repair.json
+python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/pilot_real --tasks tasks/catalog.json --out artifacts/redaction_audits/pilot_real.json
+python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/pilot_repair_real --tasks tasks/catalog.json --out artifacts/redaction_audits/pilot_repair_real.json
+python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/pilot_mock --tasks tasks/catalog.json --out artifacts/redaction_audits/pilot_mock.json
 if [ -d artifacts/redacted_traces/sanity_31b_repair ]; then
   python3 scripts/audit_redactions.py --traces artifacts/redacted_traces/sanity_31b_repair --tasks tasks/sanity_catalog.json --out artifacts/redaction_audits/sanity_31b_repair.json
 fi

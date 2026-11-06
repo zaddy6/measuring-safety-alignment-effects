@@ -14,14 +14,14 @@ every task.
 \paragraph{Controller checks.}
 The pilots validated orchestration and exposed an interface confound: under the
 strict controller, official-model failures were dominated by repeated file
-listings and malformed tool calls. The repair controller removes that failure
+listings. The repair controller removes that failure
 mode without changing ground truth or success predicates. A 200-run
 strict-controller ablation, compared with the matched repair-controller subset,
 confirms that the interface matters but does not reverse the Gemma 31B
 comparison: official-model prompt conditions remain at
-0/50 successes on the 10-task subset, while the less-restricted derivative
-reaches 5/50 under strict and 10/50 under repair; the appendix reports the
-pilot and ablation tables.
+0/50 successes, while the less-restricted derivative
+reaches 5/50 under strict and 10/50 under repair
+(Table~\ref{app:controller-ablation}).
 
 \paragraph{Cross-pair security comparison.}
 Figure~\ref{fig:model-family-results} and
@@ -42,8 +42,6 @@ succeeds on 5/150 runs (3.3\%), while the abliterated derivative succeeds on
 refusal-prone under this harness; it is substantially worse at following the
 tool protocol.
 
-\input{figures/model_family_results}
-
 \begin{table}[t]
 \centering
 \caption{Cross-pair security comparison under the same repair-controller
@@ -55,25 +53,26 @@ less-restricted runs with at least one unsafe-action event.}
 \input{tables/model_family_security.tex}
 \end{table}
 
+\input{figures/model_family_results}
+
+
 \paragraph{Mechanism and limits.}
 Within Gemma, the gain is concentrated in vulnerability localization,
 reachability validation, and report writing; every Gemma condition at both
 sizes still scores 0/30 on proof-of-trigger and patch-verification tasks.
+These zeros partly reflect the predicates: proof-of-trigger predicates also
+require the unprompted term ``local-only'', and counting the 120 runs that fail
+only for that reason as successes keeps every pair's direction
+(Appendix~\ref{app:rq4}).
 Visible refusal does not explain the 31B result: the 31B traces contain no
-strict-refusal labels and no refusal, suppressed-action, or unsafe-action
-events. The difference appears later, in grounded artifact production. The
+strict-refusal labels and no refusal or unsafe-action events. The difference appears later, in grounded artifact production. The
 less-restricted 31B derivative names expected symbols more often than the
 aligned model (0.81 versus 0.41) and has higher mean grounding (3.91 versus
 3.27); the 26B pair shows the same direction (4.12 versus 1.64).
 
-\looseness=-1
-For the fourth question, we compare runs of the same model and condition that do
-and do not satisfy a grounding field. Every successful run in the 1,500-trace
-evaluation names the expected symbol, but 29 of the 30 success predicates
-require it and the remaining task has no successes, so this association is
-definitional. Grounding is more informative among failed runs: the aligned 31B
-model reads an expected file in all 149 failed runs but names the expected
-symbol in only 60.
+For the fourth question, the within-condition link between grounding and
+success is definitional, since 29 of 30 predicates require the expected symbol
+(Appendix~\ref{app:rq4}).
 
 \looseness=-1
 The non-Gemma traces narrow the claim. Qwen reads expected files in every
@@ -90,7 +89,7 @@ out-of-scope package installation (Appendix~\ref{app:out-of-scope}). These detai
 deployment interpretation, not because they rescue a universal claim.
 
 \paragraph{Controls, examples, and audits.}
-The non-security controls in Appendix~\ref{app:cross-evaluation-summary} make
+The non-security controls in Appendix Table~\ref{app:cross-evaluation-summary} make
 the Gemma result a broad grounding/capability gap under this harness rather
 than a clean security-specific alignment effect. Compact qualitative examples
 show the same pattern: an aligned Gemma trace reads the right file but names the
@@ -98,6 +97,6 @@ wrong function, a less-restricted Gemma trace names the file, symbol, issue, and
 evidence, and a proof-of-trigger trace still fails despite a plausible grounded
 report. Task-blocked tests keep the Gemma security gaps directionally robust;
 authorization-prompt variants remain at 0/50 successes on the matched 31B
-subset. The blind 120-trace LLM audit supports coarse success and refusal
-judgments (inter-reviewer \(\kappa=0.87\) for success), but not hard-validation
-subtypes (\(\kappa=0.21\)).
+subset. The blind 120-trace LLM audit gives inter-reviewer \(\kappa=0.87\) on
+success but \(\kappa=0.38\) and 0.32 against the deterministic labels and
+\(\kappa=0.21\) on hard-validation subtypes.

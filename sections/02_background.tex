@@ -65,10 +65,10 @@ multi-turn autonomous execution in executable sandboxes with deterministic
 success predicates, saved traces, failure phases, unsafe-action labels, and
 evidence grounding, comparing aligned models with their less-restricted
 derivatives. Both studies find that authorization wording is not a
-reliable lever: our authorized Gemma 4 31B condition succeeds in 0/150 runs.
-But none of our security traces contains a refusal event; the aligned Gemma
-models keep working and produce less-grounded artifacts, a difference that
-refusal rates miss.
+reliable lever: our authorized Gemma 4 31B condition succeeds no more often
+than the standard prompt.
+Yet none of our security traces contains a refusal: the aligned Gemma models
+keep working but produce less-grounded artifacts, which refusal rates miss.
 
 \paragraph{Mechanisms of refusal removal.}
 Recent mechanistic work suggests that refusal behavior in open-weight chat
@@ -116,6 +116,5 @@ derivative uses refusal-direction abliteration \cite{arditi2024refusal} via
 FailSpy's implementation \cite{mlabonne_llama31_8b_abliterated}; the
 Qwen2.5-Coder derivative is an abliterated release by huihui-ai whose GGUF card
 does not document the procedure \cite{qwen25coder7b_abliterated_gguf}. None
-isolates safety fine-tuning: public base checkpoints precede instruction tuning
-altogether, and no official instruction-tuned checkpoints of these models
-without safety training are available.
+isolates safety fine-tuning, and no official instruction-tuned checkpoints of
+these models without safety training exist.

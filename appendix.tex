@@ -66,7 +66,7 @@ call with a \texttt{controller\_repair} field in the saved trace.
   extended with ``Initial file inventory:'' followed by the sorted fixture
   paths and the sentence ``Start by reading the relevant source file from this
   inventory before writing the final artifact.''
-  \item \textbf{Repeated \texttt{list\_files}.} \emph{Trigger:} a repeated
+  \item \textbf{Repeated} \texttt{list\_files}\textbf{.} \emph{Trigger:} a repeated
   identical call (as defined above) whose tool is \texttt{list\_files}, in a
   task that allows \texttt{read\_file}. \emph{Transformation:} instead of the
   repeated-call message, the controller executes \texttt{read\_file} on one
@@ -77,7 +77,7 @@ call with a \texttt{controller\_repair} field in the saved trace.
   falling back to the first such entry. The tool output is prefixed with a
   note naming the substituted read. If no entry qualifies, the repeated-call
   message is returned as in strict mode.
-  \item \textbf{Malformed \texttt{write\_file} JSON.} \emph{Trigger:} a reply
+  \item \textbf{Malformed} \texttt{write\_file} \textbf{JSON.} \emph{Trigger:} a reply
   that fails JSON parsing but contains \verb|"tool"|, \texttt{write\_file},
   \verb|"content"|, and a \verb|"path"| string value. \emph{Transformation:} the
   file content is the text after the opening quote of the \texttt{content}
@@ -98,7 +98,9 @@ They fire more often for the official Gemma 31B prompt conditions than for the
 less-restricted 31B derivative, and none of that derivative's 21 successful
 runs uses them, so the repair controller does not create the Gemma 31B
 advantage. In the other pairs, rules 2--4 fire in at most 12 runs per
-condition.
+condition, but rule 3 contributes to some successes: 3 of the 5 aligned Llama
+successes and one success in each Qwen condition used it, so the repair
+controller contributes to the Llama gap.
 
 \begin{table}[h]
 \centering
@@ -130,13 +132,16 @@ installation. No other trace shows network access.
 
 The installed packages remained available to runs started later on the same
 host: the 111 subsequent 26B security runs (55 aligned and 56 less-restricted)
-and every study that followed, including the 31B strict-controller ablation,
-standard-coding control, and authorization-prompt study, whose matched 31B
-repair-controller baselines ran before the installation; none of their runs
-invoked either package. The 31B security, 31B sanity, and earlier 26B runs ran
-before the installation. No reported success depends on these
-packages: four successful Llama 3.1 aligned runs invoked \texttt{pytest}, but it
-collected no tests, and their reports do not draw on its output.
+and every study that followed. Of these later runs, 10 less-restricted 26B,
+1 aligned Qwen, and 19 aligned Llama security runs used \texttt{pytest} or
+\texttt{jinja2}; no run in the 31B strict-controller ablation, standard-coding
+and sanity controls, or authorization-prompt study used either package,
+although those 31B studies ran after the installation and their matched 31B
+repair-controller baselines ran before it. The 31B security, 31B sanity, and
+earlier 26B runs ran before the installation. No reported success depends on
+these packages: the only successful runs among those that used them are four
+Llama 3.1 aligned runs whose \texttt{pytest} call collected no tests, and
+their reports do not draw on its output.
 
 \section{Schemas, Metrics, and Labels}
 \label{app:schemas}
@@ -161,7 +166,13 @@ label: \texttt{strict\_refusal}, \texttt{partial\_refusal},
 \texttt{localization\_failure}, \texttt{construction\_failure},
 \texttt{validation\_failure}, \texttt{reporting\_failure},
 \texttt{tool\_failure}, \texttt{environment\_failure},
-\texttt{capability\_failure}, or \texttt{unsafe\_action}.
+\texttt{capability\_failure}, or \texttt{unsafe\_action}. The automated
+classifier assigns only \texttt{strict\_refusal}, \texttt{unsafe\_action},
+\texttt{tool\_failure}, \texttt{capability\_failure},
+\texttt{reporting\_failure}, \texttt{validation\_failure}, and
+\texttt{localization\_failure}. Strict refusal is detected by matching seven
+fixed refusal phrases; partial refusal and suppressed action are defined in the
+schema but not detected by the harness.
 
 \section{Supplementary Results}
 
@@ -182,7 +193,8 @@ the mean deterministic score out of five.}
 \centering
 \caption{Safety outcomes for the two Gemma security evaluations. Grounding is
 mean score out of five; Refusal, Suppressed, and Unsafe are shares of runs
-with at least one such event.
+with at least one such event. Suppressed-action detection is not implemented,
+so that column is always zero.
 Redact. counts public-trace audit findings.}
 \label{app:safety-outcomes-31b}
 \small
@@ -193,6 +205,26 @@ Redact. counts public-trace audit findings.}
 \emph{Gemma 26B A4B.}
 \input{tables/safety_outcomes_26b.tex}
 \end{table}
+
+\subsection{Grounding and Success Within Conditions}
+\label{app:rq4}
+
+For the fourth research question, we compare runs of the same model and
+condition that do and do not satisfy a grounding field. Every successful run in
+the 1,500-trace evaluation names the expected symbol, but 29 of the 30 success
+predicates require it and the remaining task has no successes, so this
+association is definitional. Grounding is more informative among failed runs:
+the aligned 31B model reads an expected file in all 149 failed runs but names
+the expected symbol in only 60.
+
+Every proof-of-trigger predicate also requires the term ``local-only'', which
+no task prompt requests. Across the four pairs, 120 proof-of-trigger runs fail
+only because that term is missing, including 19 or 20 of 30 in each Gemma 31B
+condition. Counting them as successes changes total security successes (aligned
+versus less-restricted) to 21 versus 40 for Gemma 31B, 7 versus 41 for Gemma
+26B A4B, 10 versus 4 for Qwen2.5-Coder, and 12 versus 0 for Llama 3.1; the
+authorized and placeholder 31B conditions would reach 20 each. The direction of
+every pair is unchanged.
 
 \subsection{Cross-Family Details}
 \label{app:evaluation-26b}
@@ -206,7 +238,9 @@ cost tables are retained in their corresponding \texttt{analysis/} folders.
 Table~\ref{app:model-provenance} lists the exact GGUF files; every security and
 control trace records the same model identifier and SHA-256 hash as its config.
 All security and control runs use temperature 0.2, top-\(p\) 0.95, a 512-token
-generation limit, and seeds 0--4; the two 24-run pilots use seeds 0--1.
+generation limit, and five replicates per task with indices 0--4 (two, 0--1,
+for the 24-run pilots). The index is recorded in each trace but is not passed
+to the inference server, so sampling is not seeded.
 The 31B authorized and placeholder conditions reuse the aligned 31B file.
 
 \begin{table}[h]
@@ -215,7 +249,7 @@ The 31B authorized and placeholder conditions reuse the aligned 31B file.
 hexadecimal digits of each file's SHA-256 hash. Full hashes are recorded in
 the configs and traces. Two files are no longer at the head of their
 repositories: the 31B aligned file is available at revision \texttt{fb5801c702}
-of \texttt{ggml-org/gemma-4-31B-it-GGUF}, and the 26B aligned file at revision
+of \texttt{ggml-org/gemma-4-31B-it-GGUF} \citep{ggmlorg_gemma4_31b_gguf}, and the 26B aligned file at revision
 \texttt{3365c68df1} of \texttt{unsloth/gemma-4-26B-A4B-it-GGUF}. The Qwen
 derivative's upstream repository (\texttt{huihui-ai}) is no longer publicly
 accessible.}
